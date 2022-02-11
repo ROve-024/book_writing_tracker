@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="720.0" maxWidth="1080.0" minHeight="720.0" minWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignUp">
+   <children>
+      <AnchorPane layoutX="600.0" layoutY="2.0" prefHeight="720.0" prefWidth="480.0" style="-fx-background-color: #f5f5f5;">
+         <children>
+            <JFXTextField id="username" fx:id="usernameInput" focusColor="#f8740a" layoutX="92.0" layoutY="209.0" prefHeight="34.0" prefWidth="300.0" promptText="Username" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField id="password" fx:id="passwordInput" focusColor="#f8740a" layoutX="92.0" layoutY="269.0" prefHeight="34.0" prefWidth="300.0" promptText="Password" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXButton id="loginButton" layoutX="89.0" layoutY="572.0" onAction="#loginButtonAcction" prefHeight="50.0" prefWidth="300.0" ripplerFill="WHITE" styleClass="btn-basic" text="SUBMIT" textAlignment="CENTER" textFill="WHITESMOKE">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="90.0" layoutY="115.0" styleClass="title-huge" text="SIGN UP" textFill="#232323">
+               <font>
+                  <Font size="36.0" />
+               </font></Label>
+            <Label fx:id="repeatWrongInputTips" layoutX="92.0" layoutY="364.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="Please make sure your passwords match." textFill="#e23241" />
+            <JFXPasswordField id="password" fx:id="repeatPasswordInput" focusColor="#f8740a" layoutX="92.0" layoutY="329.0" prefHeight="34.0" prefWidth="300.0" promptText="Repeat Password" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXPasswordField>
+            <Label fx:id="formatWrongInputTips" layoutX="92.0" layoutY="304.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="Must be 6-16 characters with both number and letter." textFill="#e23241" />
+            <JFXComboBox fx:id="securityQuestionBox" focusColor="#f8740a" layoutX="92.0" layoutY="417.0" prefHeight="23.0" prefWidth="300.0" promptText="Choose a question to reset password." unFocusColor="#7d7d7d" />
+            <Label fx:id="usernameWrongInputTips" layoutX="92.0" layoutY="244.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="The username already exists." textFill="#e23241" />
+            <Label layoutX="92.0" layoutY="397.0" styleClass="normal-tip" text="Security Question" />
+            <JFXTextField id="username" fx:id="questionAnswerInput" focusColor="#f8740a" layoutX="92.0" layoutY="452.0" prefHeight="34.0" prefWidth="300.0" promptText="Answer to question" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <Label fx:id="answerWrongInputTips" layoutX="92.0" layoutY="487.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="This item cannot be empty." textFill="#e23241" />
+            <Label fx:id="usernameEmptyInputTips" layoutX="92.0" layoutY="244.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="The username cannot be empty." textFill="#e23241" />
+            <FlowPane layoutX="131.0" layoutY="669.0" prefHeight="23.0" prefWidth="217.0">
+               <children>
+                  <Label text="Already have an account?" textFill="#7f7f7f" />
+                  <Hyperlink id="createAccountButton" fx:id="signInButton" onAction="#signInButtonAction" text="Sign in now " />
+               </children>
+            </FlowPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="2.0" prefHeight="720.0" prefWidth="600.0" style="-fx-background-color: #f8f8f8;">
+         <children>
+            <ImageView fitHeight="741.0" fitWidth="604.0" layoutX="-4.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/images/sign%20up.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="2.0" prefHeight="42.0" prefWidth="1080.0">
+         <children>
+            <JFXButton id="closeButton" layoutX="1033.0" layoutY="6.0" onAction="#closeButtonAction" text="X">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton id="closeButton" layoutX="985.0" layoutY="5.0" onAction="#minimizeButtonAction" text="—">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
