@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <DATA>
     <ROW>
-        <IdTask></IdTask>
-        <IdParentTask></IdParentTask>
-        <IdBook></IdBook>
-        <Status></Status>
-        <CreateTime></CreateTime>
-        <DeadlineTime></DeadlineTime>
-        <Description></Description>
+        <IdTask>1</IdTask>
+        <IdParentTask>NULL</IdParentTask>
+        <IdProject>1</IdProject>
+        <IdUser>1</IdUser>
+        <Status>finished</Status>
+        <CreateTime>1</CreateTime>
+        <DeadlineTime>1</DeadlineTime>
+        <Description>NULL</Description>
     </ROW>
 </DATA>

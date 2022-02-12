@@ -1,6 +1,5 @@
-package controller;
+package ui.controller;
 
-import controller.utlis.JsonUtils;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;

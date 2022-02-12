@@ -1,4 +1,4 @@
-package model.user;
+package io.user;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static controller.utlis.Utils.getXMLTagValue;
+import static utils.OtherUtils.getXMLTagValue;
 
 
 /**
@@ -77,7 +77,7 @@ public class UserReadWrite {
      *
      * @param userList 写入user.xml的user列表
      */
-    public void writeXML(List<User> userList) {
+    public void writeUserXML(List<User> userList) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         User temp;
         try {

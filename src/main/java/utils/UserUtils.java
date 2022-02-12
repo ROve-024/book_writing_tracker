@@ -1,7 +1,7 @@
-package controller.utlis;
+package utils;
 
-import model.user.User;
-import model.user.UserReadWrite;
+import io.user.User;
+import io.user.UserReadWrite;
 
 import java.util.List;
 
@@ -27,14 +27,14 @@ public class UserUtils {
      * @param userList 要写入文件的用户列表
      */
     public static void writeUserXML(List<User> userList) {
-        new UserReadWrite().writeXML(userList);
+        new UserReadWrite().writeUserXML(userList);
     }
 
     /**
      * 获取最大的用户id值
      *
      * @param userList 已有的用户列表
-     * @return 返回用户个数（即最大id）
+     * @return 返回即最大id
      */
     public static int maxUserId(List<User> userList) {
         int cnt = 0;
@@ -181,7 +181,7 @@ public class UserUtils {
      * @param id 用户id
      * @return 返回相应的User对象
      */
-    public static User searchUserByID(String id) {
+    public static User getUserByID(String id) {
         List<User> userList = getUserList();
         User user = null;
 
@@ -201,9 +201,9 @@ public class UserUtils {
      * @param username 用户名
      * @return 返回相应的User对象
      */
-    public static User searchUserByUsername(String username) {
+    public static User getUserByUsername(String username) {
         String id = UserUtils.getIDByUsername(username);
-        return UserUtils.searchUserByID(id);
+        return UserUtils.getUserByID(id);
     }
 
 

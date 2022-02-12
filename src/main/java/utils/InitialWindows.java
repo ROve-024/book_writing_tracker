@@ -1,4 +1,4 @@
-package controller.utlis;
+package utils;
 
 import javafx.event.EventHandler;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package controller.utlis;
+package utils;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,10 +11,11 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 一些多次使用的工具
+ *
  * @author CUI, Bingzhe
  * @version 1.0
  */
-public class Utils {
+public class OtherUtils {
     /**
      * 使用md5对数据进行加密
      *
@@ -36,8 +37,9 @@ public class Utils {
 
     /**
      * 获取一个Tag的值
+     *
      * @param element user.xml文件中一个用户的所有数据
-     * @param tag 一个element中，tag的名称
+     * @param tag     一个element中，tag的名称
      * @return 返回User类对象
      */
     public static String getXMLTagValue(Element element, String tag) {

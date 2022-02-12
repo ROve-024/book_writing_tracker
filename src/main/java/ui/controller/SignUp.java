@@ -1,11 +1,11 @@
-package controller;
+package ui.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import controller.utlis.InitialWindows;
-import controller.utlis.UserUtils;
-import controller.utlis.Utils;
+import utils.InitialWindows;
+import utils.UserUtils;
+import utils.OtherUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -115,10 +115,10 @@ public class SignUp {
         }
 
         if (flag) {
-            UserUtils.signUpSubmit(usernameInput.getText(), Utils.encryptByMD5(passwordInput.getText()), (String) securityQuestionBox.getValue(), Utils.encryptByMD5(questionAnswerInput.getText()));
+            UserUtils.signUpSubmit(usernameInput.getText(), OtherUtils.encryptByMD5(passwordInput.getText()), (String) securityQuestionBox.getValue(), OtherUtils.encryptByMD5(questionAnswerInput.getText()));
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/Login.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -152,7 +152,7 @@ public class SignUp {
     protected void signInButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/Login.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }

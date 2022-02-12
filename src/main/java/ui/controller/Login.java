@@ -1,11 +1,10 @@
-package controller;
+package ui.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import controller.utlis.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +13,10 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utils.InitialWindows;
+import utils.JsonUtils;
+import utils.OtherUtils;
+import utils.UserUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,19 +84,19 @@ public class Login {
     @FXML
     protected void loginButtonAction() {
         String username = usernameInput.getText();
-        String password = Utils.encryptByMD5(passwordInput.getText());
+        String password = OtherUtils.encryptByMD5(passwordInput.getText());
         if (UserUtils.loginMatch(username, password)) {
             user.put("username", username);
             if (rememberMeCheckbox.isSelected()) {
-                user.put("status", Utils.encryptByMD5("true"));
+                user.put("status", OtherUtils.encryptByMD5("true"));
             } else {
-                user.put("status", Utils.encryptByMD5("false"));
+                user.put("status", OtherUtils.encryptByMD5("false"));
             }
             JsonUtils.saveJsonToFile(user, "src/main/resources/buffer/infoLogin.json");
             wrongInputTips.setVisible(false);
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/MainPage.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/view/fxml/MainPage.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -130,7 +133,7 @@ public class Login {
         Stage stage = (Stage) titleBar.getScene().getWindow();
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/ForgotPassword.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/view/fxml/ForgotPassword.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,7 +150,7 @@ public class Login {
     protected void signUpButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/SignUp.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/view/fxml/SignUp.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }

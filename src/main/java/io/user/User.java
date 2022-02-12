@@ -1,7 +1,7 @@
-package model.user;
+package io.user;
 
 /**
- * User数据结构
+ * User数据
  *
  * @author CUI, Bingzhe
  * @version 1.0

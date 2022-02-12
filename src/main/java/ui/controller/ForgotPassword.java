@@ -1,18 +1,18 @@
-package controller;
+package ui.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import controller.utlis.InitialWindows;
-import controller.utlis.UserUtils;
-import controller.utlis.Utils;
+import utils.InitialWindows;
+import utils.UserUtils;
+import utils.OtherUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import model.user.User;
+import io.user.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class ForgotPassword {
             if (!t1) {
                 if (UserUtils.ifSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(false);
-                    user = UserUtils.searchUserByUsername(usernameInput.getText());
+                    user = UserUtils.getUserByUsername(usernameInput.getText());
                     securityQuestion.setText(user.getQuestion());
                 } else {
                     usernameWrongInputTips.setVisible(true);
@@ -116,7 +116,7 @@ public class ForgotPassword {
         if (!UserUtils.ifSameUsername(usernameInput.getText()) && !usernameInput.getText().isEmpty()) {
             flag = false;
             usernameWrongInputTips.setVisible(true);
-            user = UserUtils.searchUserByUsername(usernameInput.getText());
+            user = UserUtils.getUserByUsername(usernameInput.getText());
         } else {
             usernameWrongInputTips.setVisible(false);
         }
@@ -135,7 +135,7 @@ public class ForgotPassword {
         if (user == null || !securityQuestion.getText().equals(user.getQuestion())) {
             flag = false;
         }
-        if (user == null || !Utils.encryptByMD5(questionAnswerInput.getText()).equals(user.getAnswer())) {
+        if (user == null || !OtherUtils.encryptByMD5(questionAnswerInput.getText()).equals(user.getAnswer())) {
             flag = false;
             repeatWrongInputTips.setVisible(true);
         } else {
@@ -143,12 +143,12 @@ public class ForgotPassword {
         }
 
         if (flag) {
-            user.setPassword(Utils.encryptByMD5(passwordInput.getText()));
+            user.setPassword(OtherUtils.encryptByMD5(passwordInput.getText()));
             UserUtils.updateUserList(user);
             System.out.println("success");
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/Login.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,7 +185,7 @@ public class ForgotPassword {
     protected void signUpButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/SignUp.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/view/fxml/SignUp.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }

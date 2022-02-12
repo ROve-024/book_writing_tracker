@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPage">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../../resources/css/styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainPage">
    <children>
       <AnchorPane fx:id="titleBar" prefHeight="17.0" prefWidth="1080.0">
          <children>
