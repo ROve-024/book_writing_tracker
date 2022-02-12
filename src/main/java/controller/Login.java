@@ -18,6 +18,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Login.fxml的控制器
+ *
+ * @author CUI, Bingzhe
+ * @version 1.0
+ */
 public class Login {
     JSONObject user;
     private int mistake = 0;
@@ -41,6 +47,9 @@ public class Login {
     @FXML
     private AnchorPane titleBar;
 
+    /**
+     * 初始化stage
+     */
     @FXML
     private void initialize() {
         wrongInputTips.setVisible(false);
@@ -49,22 +58,32 @@ public class Login {
         usernameInput.setText((String) user.get("username"));
     }
 
+    /**
+     * 点击关闭按钮，结束程序运行
+     */
     @FXML
     protected void closeButtonAction() {
         System.exit(0);
     }
 
+    /**
+     * 点击最小化按钮，最小化窗口
+     */
     @FXML
     protected void minimizeButtonAction() {
         Stage stage = (Stage) titleBar.getScene().getWindow();
         stage.setIconified(true);
     }
 
+    /**
+     * 点击登录按钮，验证用户身份
+     */
     @FXML
-    protected void loginButtonAcction() {
+    protected void loginButtonAction() {
         String username = usernameInput.getText();
         String password = Utils.encryptByMD5(passwordInput.getText());
         if (UserUtils.loginMatch(username, password)) {
+            user.put("username", username);
             if (rememberMeCheckbox.isSelected()) {
                 user.put("status", Utils.encryptByMD5("true"));
             } else {
@@ -103,6 +122,9 @@ public class Login {
 
     }
 
+    /**
+     * 跳转到忘记密码页面
+     */
     @FXML
     protected void forgetPasswordButtonAction() {
         Stage stage = (Stage) titleBar.getScene().getWindow();
@@ -117,6 +139,10 @@ public class Login {
         forgetPasswordButton.getScene().setRoot(root);
     }
 
+
+    /**
+     * 跳转到注册用户页面
+     */
     @FXML
     protected void signUpButtonAction() {
         Parent root = null;

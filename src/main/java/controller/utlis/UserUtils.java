@@ -5,16 +5,37 @@ import model.user.UserReadWrite;
 
 import java.util.List;
 
+/**
+ * 处理User类对象的数据
+ *
+ * @author CUI, Bingzhe
+ * @version 1.0
+ */
 public class UserUtils {
-
+    /**
+     * 从文件中获取UserList
+     *
+     * @return 储存的用户列表
+     */
     public static List<User> getUserList() {
         return UserReadWrite.readUserXML();
     }
 
+    /**
+     * 将用户列表保存到文件
+     *
+     * @param userList 要写入文件的用户列表
+     */
     public static void writeUserXML(List<User> userList) {
         new UserReadWrite().writeXML(userList);
     }
 
+    /**
+     * 获取最大的用户id值
+     *
+     * @param userList 已有的用户列表
+     * @return 返回用户个数（即最大id）
+     */
     public static int maxUserId(List<User> userList) {
         int cnt = 0;
         User user;
@@ -28,6 +49,13 @@ public class UserUtils {
         return cnt;
     }
 
+    /**
+     * 验证用户输入的账号和密码是否和本地数据一致
+     *
+     * @param username 用户输入的用户名
+     * @param password 用户输入的密码
+     * @return 若匹配，则返回true，反之亦然
+     */
     public static boolean loginMatch(String username, String password) {
         List<User> userList = getUserList();
         boolean flag = false;
@@ -43,6 +71,12 @@ public class UserUtils {
         return flag;
     }
 
+    /**
+     * 检测用户输入的用户名是否已经存在
+     *
+     * @param username 用户输入的用户名
+     * @return 若存在，则返回true，反之亦然
+     */
     public static boolean ifSameUsername(String username) {
         List<User> userList = getUserList();
         boolean flag = false;
@@ -57,6 +91,12 @@ public class UserUtils {
         return flag;
     }
 
+    /**
+     * 判断用户输入的密码是否符合要求
+     *
+     * @param password 用户输入的密码
+     * @return 若符合要求，则返回false，反之亦然
+     */
     public static boolean ifPasswordValid(String password) {
         boolean flag = true;
         boolean numberFlag = false;
@@ -68,9 +108,6 @@ public class UserUtils {
                 numberFlag = true;
             } else if (Character.isLetter(temp)) {
                 letterFlag = true;
-            } else {
-                flag = false;
-                break;
             }
         }
         if (!(letterFlag && numberFlag)) {
@@ -84,7 +121,15 @@ public class UserUtils {
         return !flag;
     }
 
-    public static String signUpSubmit(String username, String password, String question, String answer) {
+    /**
+     * 将用户输入的信息注册成一条新的用户数据，并储存到本地
+     *
+     * @param username 用户输入的用户名
+     * @param password 用户输入的密码
+     * @param question 用户选择的密保问题
+     * @param answer   用户输入的密保问题答案
+     */
+    public static void signUpSubmit(String username, String password, String question, String answer) {
         List<User> userList = getUserList();
         User user = new User();
         String id = Integer.toString(maxUserId(userList) + 1);
@@ -95,9 +140,13 @@ public class UserUtils {
         user.setAnswer(answer);
         userList.add(user);
         writeUserXML(userList);
-        return id;
     }
 
+    /**
+     * 更新用户数据，并更新相应文件
+     *
+     * @param user 需要更新的用户
+     */
     public static void updateUserList(User user) {
         List<User> userList = getUserList();
         userList.removeIf(temp -> temp.getIdUser().equals(user.getIdUser()));
@@ -105,6 +154,12 @@ public class UserUtils {
         writeUserXML(userList);
     }
 
+    /**
+     * 使用用户名获取用户id
+     *
+     * @param username 用户名
+     * @return 返回相应用户的用户id
+     */
     public static String getIDByUsername(String username) {
         List<User> userList = getUserList();
         User user = null;
@@ -120,6 +175,12 @@ public class UserUtils {
         return user.getIdUser();
     }
 
+    /**
+     * 通过用户id获取User对象
+     *
+     * @param id 用户id
+     * @return 返回相应的User对象
+     */
     public static User searchUserByID(String id) {
         List<User> userList = getUserList();
         User user = null;
@@ -134,7 +195,13 @@ public class UserUtils {
         return user;
     }
 
-    public static User searchUserByUsername(String username){
+    /**
+     * 通过用户名获取User对象
+     *
+     * @param username 用户名
+     * @return 返回相应的User对象
+     */
+    public static User searchUserByUsername(String username) {
         String id = UserUtils.getIDByUsername(username);
         return UserUtils.searchUserByID(id);
     }

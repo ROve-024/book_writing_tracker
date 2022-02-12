@@ -1,27 +1,29 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import controller.utlis.InitialWindows;
 import controller.utlis.UserUtils;
 import controller.utlis.Utils;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.user.User;
 
-import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.IOException;
 
+
+/**
+ * ForgotPassword.fxml的控制器
+ *
+ * @author CUI, Bingzhe
+ * @version 1.0
+ */
 public class ForgotPassword {
     private int mistake = 0;
     @FXML
@@ -49,6 +51,9 @@ public class ForgotPassword {
 
     User user;
 
+    /**
+     * javafx初始化
+     */
     @FXML
     private void initialize() {
         usernameWrongInputTips.setVisible(false);
@@ -84,19 +89,29 @@ public class ForgotPassword {
 
     }
 
+    /**
+     * 点击关闭按钮，结束运行
+     */
     @FXML
     protected void closeButtonAction() {
         System.exit(0);
     }
 
+    /**
+     * 点击最小化按钮，最小化程序
+     */
     @FXML
     protected void minimizeButtonAction() {
         Stage stage = (Stage) questionAnswerInput.getScene().getWindow();
         stage.setIconified(true);
     }
 
+
+    /**
+     * 点击Reset按钮，重置用户密码
+     */
     @FXML
-    protected void resetButtonAcction() {
+    protected void resetButtonAction() {
         boolean flag = true;
         if (!UserUtils.ifSameUsername(usernameInput.getText()) && !usernameInput.getText().isEmpty()) {
             flag = false;
@@ -162,6 +177,10 @@ public class ForgotPassword {
         }
     }
 
+
+    /**
+     * 跳转到注册账户页面
+     */
     @FXML
     protected void signUpButtonAction() {
         Parent root = null;

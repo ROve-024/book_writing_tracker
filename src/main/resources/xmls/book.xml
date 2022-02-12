@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<DATA>
+    <ROW>
+        <IdBook>1</IdBook>
+        <ISBN>978-7-0000-0000-0</ISBN>
+        <Title>Book Example</Title>
+        <Description>Example book to presentation</Description>
+        <CreateTime>1</CreateTime>
+        <DeadlineTime>1</DeadlineTime>
+    </ROW>
+</DATA>

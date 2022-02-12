@@ -41,6 +41,9 @@ public class SignUp {
     private Hyperlink signInButton;
 
 
+    /**
+     * 初始化stage
+     */
     @FXML
     private void initialize() {
         usernameWrongInputTips.setVisible(false);
@@ -53,13 +56,13 @@ public class SignUp {
         securityQuestionBox.getSelectionModel().select("What city were you born in?");
         usernameInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (!t1) {
-                if(UserUtils.ifSameUsername(usernameInput.getText())){
+                if (UserUtils.ifSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(true);
                     usernameEmptyInputTips.setVisible(false);
-                }else if(usernameInput.getText().isEmpty()){
+                } else if (usernameInput.getText().isEmpty()) {
                     usernameWrongInputTips.setVisible(false);
                     usernameEmptyInputTips.setVisible(true);
-                }else {
+                } else {
                     usernameWrongInputTips.setVisible(false);
                     usernameEmptyInputTips.setVisible(false);
                 }
@@ -74,8 +77,11 @@ public class SignUp {
         });
     }
 
+    /**
+     * 点击提交按钮，验证用户输入数据是否合法，合法时将数据保存，并跳转到登录页面
+     */
     @FXML
-    protected void loginButtonAcction() {
+    protected void loginButtonAction() {
         boolean flag = true;
         if (UserUtils.ifSameUsername(usernameInput.getText())) {
             flag = false;
@@ -101,14 +107,14 @@ public class SignUp {
         } else {
             repeatWrongInputTips.setVisible(false);
         }
-        if (questionAnswerInput.getText().isEmpty()){
+        if (questionAnswerInput.getText().isEmpty()) {
             flag = false;
             answerWrongInputTips.setVisible(true);
         } else {
             answerWrongInputTips.setVisible(false);
         }
 
-        if (flag){
+        if (flag) {
             UserUtils.signUpSubmit(usernameInput.getText(), Utils.encryptByMD5(passwordInput.getText()), (String) securityQuestionBox.getValue(), Utils.encryptByMD5(questionAnswerInput.getText()));
             Parent root = null;
             try {
@@ -122,19 +128,28 @@ public class SignUp {
 
     }
 
+    /**
+     * 点击关闭按钮，结束程序运行
+     */
     @FXML
     protected void closeButtonAction() {
         System.exit(0);
     }
 
+    /**
+     * 点击最小化按钮，将应用窗口最小化
+     */
     @FXML
-    protected void minimizeButtonAction(){
+    protected void minimizeButtonAction() {
         Stage stage = (Stage) usernameInput.getScene().getWindow();
         stage.setIconified(true);
     }
 
+    /**
+     * 跳转到登录页面
+     */
     @FXML
-    protected void signInButtonAction(){
+    protected void signInButtonAction() {
         Parent root = null;
         try {
             root = FXMLLoader.load(new File("src/main/java/view/Login.fxml").toURI().toURL());

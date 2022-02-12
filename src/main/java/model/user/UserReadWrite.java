@@ -1,6 +1,5 @@
 package model.user;
 
-import model.user.User;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,8 +15,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static controller.utlis.Utils.getXMLTagValue;
 
+
+/**
+ * 用于读写user.xml文件的数据
+ *
+ * @author CUI, Bingzhe
+ * @version 1.0
+ */
 public class UserReadWrite {
+    /**
+     * 读取user.xml中的数据，并将其储存为User类对象
+     *
+     * @return 返回user.xml中储存的所有user
+     */
     public static List<User> readUserXML() {
         File xmlFile = new File("src/main/resources/xmls/user.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -30,37 +42,41 @@ public class UserReadWrite {
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("ROW");
 
-            for(int  i = 0 ; i<nodeList.getLength();i++){
+            for (int i = 0; i < nodeList.getLength(); i++) {
                 userList.add(getUserFromXML(nodeList.item(i)));
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return userList;
     }
-    
-    private static User getUserFromXML(Node node)
-    {
+
+    /**
+     * 将xml文件中的一个节点数据转换为User类对象
+     *
+     * @param node user.xml文件中一个用户的所有数据
+     * @return 返回User类对象
+     */
+    private static User getUserFromXML(Node node) {
         User user = new User();
-        if (node.getNodeType() == Node.ELEMENT_NODE)
-        {
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element element = (Element) node;
             user.setIdUser(getXMLTagValue(element, "IdUser"));
             user.setUsername(getXMLTagValue(element, "Username"));
             user.setPassword(getXMLTagValue(element, "Password"));
             user.setQuestion(getXMLTagValue(element, "SecurityQuestion"));
             user.setAnswer(getXMLTagValue(element, "SecurityAnswer"));
+            user.setEmail(getXMLTagValue(element, "Email"));
+            user.setTelephone(getXMLTagValue(element, "Telephone"));
         }
         return user;
     }
 
-    private static String getXMLTagValue(Element element, String tag) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = (Node) nodeList.item(0);
-        return node.getNodeValue();
-    }
-
+    /**
+     * 将用户数据写入user.xml文件
+     *
+     * @param userList 写入user.xml的user列表
+     */
     public void writeXML(List<User> userList) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         User temp;
@@ -96,13 +112,18 @@ public class UserReadWrite {
                 answer.setTextContent(temp.getAnswer());
                 user.appendChild(answer);
 
+                Element email = document.createElement("Email");
+                email.setTextContent(temp.getEmail());
+                user.appendChild(email);
+
+                Element telephone = document.createElement("Telephone");
+                telephone.setTextContent(temp.getTelephone());
+                user.appendChild(telephone);
+
                 record.appendChild(user);
             }
-
             document.appendChild(record);
-
-
-            // genera xml
+            // generate xml
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer tf = transformerFactory.newTransformer();
             tf.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -110,8 +131,7 @@ public class UserReadWrite {
             File xmlFile = new File("src/main/resources/xmls/user.xml");
             tf.transform(new DOMSource(document), new StreamResult(xmlFile));
 
-        }
-        catch (ParserConfigurationException | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
 

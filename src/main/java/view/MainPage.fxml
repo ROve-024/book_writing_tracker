@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPage">
-
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPage">
+   <children>
+      <AnchorPane fx:id="titleBar" prefHeight="17.0" prefWidth="1080.0">
+         <children>
+            <JFXButton id="closeButton" layoutX="1042.0" onAction="#closeButtonAction" text="X">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton id="closeButton" layoutX="999.0" layoutY="-1.0" onAction="#minimizeButtonAction" text="—">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="42.0" prefHeight="680.0" prefWidth="1080.0">
+         <children>
+            <AnchorPane layoutY="-42.0" prefHeight="722.0" prefWidth="52.0" style="-fx-background-color: e1e1e1;" />
+            <AnchorPane layoutX="52.0" layoutY="-42.0" prefHeight="722.0" prefWidth="273.0" style="-fx-background-color: eeeeee;" />
+            <AnchorPane layoutX="325.0" layoutY="-42.0" prefHeight="722.0" prefWidth="470.0" style="-fx-background-color: f1f1f1;" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
