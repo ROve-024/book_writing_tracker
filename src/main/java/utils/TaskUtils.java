@@ -92,7 +92,7 @@ public class TaskUtils {
     }
 
     /**
-     * 使用idProject查找子任务
+     * 使用idProject查找未被删除的主任务
      *
      * @param idProject project id
      * @return 返回相应的主任务列表
@@ -100,7 +100,39 @@ public class TaskUtils {
     public static List<Task> getTaskListByIdProject(String idProject) {
         List<Task> taskList = new ArrayList<>();
         for (Task value : getTaskList()) {
-            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL")) {
+            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && !value.getStatus().equals("deleted")) {
+                taskList.add(value);
+            }
+        }
+        return taskList;
+    }
+
+    /**
+     * 使用idProject查找已完成的主任务
+     *
+     * @param idProject project id
+     * @return 返回相应的主任务列表
+     */
+    public static List<Task> getFinishedTaskListByIdProject(String idProject) {
+        List<Task> taskList = new ArrayList<>();
+        for (Task value : getTaskList()) {
+            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && value.getStatus().equals("finished")) {
+                taskList.add(value);
+            }
+        }
+        return taskList;
+    }
+
+    /**
+     * 使用idProject查找未完成的主任务
+     *
+     * @param idProject project id
+     * @return 返回相应的主任务列表
+     */
+    public static List<Task> getUnfinishedTaskListByIdProject(String idProject) {
+        List<Task> taskList = new ArrayList<>();
+        for (Task value : getTaskList()) {
+            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && !value.getStatus().equals("finished")) {
                 taskList.add(value);
             }
         }
@@ -194,6 +226,24 @@ public class TaskUtils {
     public static List<Task> sortTaskByCreateReversedOrder(List<Task> taskList) {
         taskList.sort(Comparator.comparing(Task::getCreateTime).reversed());
         return taskList;
+    }
+
+    /**
+     * 使用idProject查询任务总数
+     *
+     * @param idProject project id
+     */
+    public static int getAllTaskNumberByIdProject(String idProject) {
+        return getTaskListByIdProject(idProject).size();
+    }
+
+    /**
+     * 使用idProject查询已完成任务总数
+     *
+     * @param idProject project id
+     */
+    public static int getFinishedTaskNumberByIdProject(String idProject) {
+        return getFinishedTaskListByIdProject(idProject).size();
     }
 
 }

@@ -76,3 +76,8 @@
 .decoration-line{
     -fx-background-color: #dddddd;
 }
+
+.scroll-pane{
+    -fx-background-color:transparent;
+    
+}

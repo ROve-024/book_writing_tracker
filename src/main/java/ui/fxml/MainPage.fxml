@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.lang.String?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -11,13 +13,13 @@
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <AnchorPane prefHeight="720.0" prefWidth="50.0" style="-fx-background-color: #eeeeee;" />
+            <AnchorPane prefHeight="720.0" prefWidth="50.0" style="-fx-background-color: #050505;" />
             <AnchorPane layoutX="334.0" prefHeight="720.0" prefWidth="1.0" styleClass="decoration-line" />
-            <AnchorPane layoutX="740.0" layoutY="7.0" prefHeight="720.0" prefWidth="1.0" styleClass="decoration-line" />
+            <AnchorPane layoutX="740.0" prefHeight="720.0" prefWidth="1.0" styleClass="decoration-line" />
             <AnchorPane layoutX="50.0" prefHeight="720.0" prefWidth="284.0">
                <children>
                   <Label layoutX="14.0" layoutY="31.0" styleClass="title" text="Project" />
-                  <JFXTextField focusColor="#f8740a" layoutX="14.0" layoutY="61.0" prefHeight="29.0" prefWidth="255.0" promptText="Press enter to create a new project." unFocusColor="#7f7f7f">
+                  <JFXTextField focusColor="#f8740a" layoutX="15.0" layoutY="68.0" prefHeight="29.0" prefWidth="255.0" promptText="Press enter to create a new project." unFocusColor="#7f7f7f">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -25,10 +27,15 @@
                         <String fx:value="input-light" />
                         <String fx:value="text-field-without-line" />
                      </styleClass></JFXTextField>
+                  <AnchorPane layoutY="107.0" prefHeight="1.0" prefWidth="284.0" styleClass="decoration-line" />
+                  <ScrollPane fx:id="projectScrollArea" layoutY="108.0" prefHeight="612.0" prefWidth="284.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="335.0" prefHeight="720.0" prefWidth="405.0" />
-            <AnchorPane layoutX="741.0" prefHeight="720.0" prefWidth="339.0" />
+            <AnchorPane layoutX="741.0" prefHeight="720.0" prefWidth="339.0">
+               <children>
+                  <DatePicker layoutX="146.0" layoutY="43.0" />
+               </children></AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="titleBar" prefHeight="35.0" prefWidth="1080.0">

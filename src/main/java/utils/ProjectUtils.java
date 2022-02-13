@@ -2,6 +2,7 @@ package utils;
 
 import io.project.Project;
 import io.project.ProjectReadWrite;
+import io.task.Task;
 
 import java.util.List;
 
@@ -107,5 +108,15 @@ public class ProjectUtils {
         writeProjectXML(projectList);
     }
 
+    /**
+     * 使用idProject查询项目完成情况
+     *
+     * @param idProject project id
+     */
+    public static double getProjectProcessByIdProject(String idProject) {
+        int finished = TaskUtils.getFinishedTaskNumberByIdProject(idProject);
+        int total = TaskUtils.getAllTaskNumberByIdProject(idProject);
+        return (1.0 * finished) / total;
+    }
 
 }
