@@ -118,7 +118,7 @@ public class SignUp {
             UserUtils.signUpSubmit(usernameInput.getText(), OtherUtils.encryptByMD5(passwordInput.getText()), (String) securityQuestionBox.getValue(), OtherUtils.encryptByMD5(questionAnswerInput.getText()));
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -152,7 +152,7 @@ public class SignUp {
     protected void signInButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }

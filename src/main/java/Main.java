@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSONObject;
+
 import utils.JsonUtils;
 import utils.InitialWindows;
 import utils.OtherUtils;
@@ -27,13 +28,13 @@ public class Main extends Application {
         JSONObject user = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/infoLogin.json");
         if (user.get("status").toString().equals(OtherUtils.encryptByMD5("true"))) {
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/fxml/MainPage.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/ui/fxml/MainPage.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -44,7 +45,6 @@ public class Main extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.show();
-
 
     }
 }

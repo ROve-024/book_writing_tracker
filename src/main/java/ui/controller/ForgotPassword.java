@@ -148,7 +148,7 @@ public class ForgotPassword {
             System.out.println("success");
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/fxml/Login.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,7 +185,7 @@ public class ForgotPassword {
     protected void signUpButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/fxml/SignUp.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/SignUp.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,4 +10,26 @@
         <DeadlineTime>1</DeadlineTime>
         <Description>NULL</Description>
     </ROW>
+
+    <ROW>
+        <IdTask>1</IdTask>
+        <IdParentTask>NULL</IdParentTask>
+        <IdProject>1</IdProject>
+        <IdUser>1</IdUser>
+        <Status>finished</Status>
+        <CreateTime>5</CreateTime>
+        <DeadlineTime>1</DeadlineTime>
+        <Description>NULL</Description>
+    </ROW>
+
+    <ROW>
+        <IdTask>1</IdTask>
+        <IdParentTask>NULL</IdParentTask>
+        <IdProject>1</IdProject>
+        <IdUser>1</IdUser>
+        <Status>finished</Status>
+        <CreateTime>3</CreateTime>
+        <DeadlineTime>1</DeadlineTime>
+        <Description>NULL</Description>
+    </ROW>
 </DATA>

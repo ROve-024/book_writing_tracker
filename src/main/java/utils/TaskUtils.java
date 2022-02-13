@@ -4,6 +4,7 @@ import io.task.Task;
 import io.task.TaskReadWrite;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -153,6 +154,46 @@ public class TaskUtils {
             }
         }
         writeTaskXML(taskList);
+    }
+
+    /**
+     * 使用截止时间顺序
+     *
+     * @param taskList 待排序的任务列表
+     */
+    public static List<Task> sortTaskByDeadlineOrder(List<Task> taskList) {
+        taskList.sort(Comparator.comparing(Task::getDeadlineTime));
+        return taskList;
+    }
+
+    /**
+     * 使用截止时间逆序
+     *
+     * @param taskList 待排序的任务列表
+     */
+    public static List<Task> sortTaskByDeadlineReversedOrder(List<Task> taskList) {
+        taskList.sort(Comparator.comparing(Task::getDeadlineTime).reversed());
+        return taskList;
+    }
+
+    /**
+     * 使用创建时间顺序
+     *
+     * @param taskList 待排序的任务列表
+     */
+    public static List<Task> sortTaskByCreateOrder(List<Task> taskList) {
+        taskList.sort(Comparator.comparing(Task::getCreateTime));
+        return taskList;
+    }
+
+    /**
+     * 使用创建时间逆序
+     *
+     * @param taskList 待排序的任务列表
+     */
+    public static List<Task> sortTaskByCreateReversedOrder(List<Task> taskList) {
+        taskList.sort(Comparator.comparing(Task::getCreateTime).reversed());
+        return taskList;
     }
 
 }

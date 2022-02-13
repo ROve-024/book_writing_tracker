@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'iconfont';
+    src: url('../font/iconfont.ttf');
+}
+
 .root {
     -fx-font-size: 12px;
     -fx-font-family: Arial;
@@ -12,8 +17,24 @@
     -fx-text-alignment: center;
 }
 
+.title{
+    -fx-font-size: 20px;
+    -fx-font-family: Arial;
+    -fx-font-weight: Bold;
+    -fx-text-alignment: center;
+}
+
+.jfx-text-field {
+    -fx-prompt-text-fill: #989898;
+}
+
 .input {
     -fx-font-size: 16px;
+}
+
+.input-light{
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f7f7f;
 }
 
 .normal-tip{
@@ -38,4 +59,20 @@
 .btn-basic:hover {
     -fx-font-size: 19px;
     -fx-opacity: 0.8;
+}
+
+.btn-icon{
+    -fx-font-family: "iconfont";
+    -fx-font-size: 14px;
+}
+
+.text-field-without-line{
+    -fx-background-color: #e5e5e5;
+    -jfx-focus-color: #f5f5f5;
+    -jfx-unfocus-color: #f5f5f5;
+    -fx-padding: 5px, 0;
+}
+
+.decoration-line{
+    -fx-background-color: #dddddd;
 }

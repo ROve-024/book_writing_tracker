@@ -96,7 +96,7 @@ public class Login {
             wrongInputTips.setVisible(false);
             Parent root = null;
             try {
-                root = FXMLLoader.load(new File("src/main/java/view/fxml/MainPage.fxml").toURI().toURL());
+                root = FXMLLoader.load(new File("src/main/java/ui/fxml/MainPage.fxml").toURI().toURL());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -133,7 +133,7 @@ public class Login {
         Stage stage = (Stage) titleBar.getScene().getWindow();
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/fxml/ForgotPassword.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/ForgotPassword.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ public class Login {
     protected void signUpButtonAction() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(new File("src/main/java/view/fxml/SignUp.fxml").toURI().toURL());
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/SignUp.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
         }
