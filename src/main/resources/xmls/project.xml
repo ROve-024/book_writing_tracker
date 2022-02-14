@@ -5,24 +5,31 @@
         <MasterIdUser>1</MasterIdUser>
         <ProjectName>Catch Me If You Can</ProjectName>
         <Description>Inspired by the true story of a brilliant young master of deception and the FBI agent hot on his trail</Description>
-        <CreateTime>1</CreateTime>
-        <DeadlineTime>1</DeadlineTime>
+        <CreateTime>3</CreateTime>
+        <DeadlineTime>1999</DeadlineTime>
     </ROW>
     <ROW>
         <IdProject>2</IdProject>
         <MasterIdUser>1</MasterIdUser>
         <ProjectName>Only Fools Rush in</ProjectName>
         <Description>2022 road trip comedy-drama film written and directed by Han Han.</Description>
-        <CreateTime>1</CreateTime>
-        <DeadlineTime>1</DeadlineTime>
+        <CreateTime>2</CreateTime>
+        <DeadlineTime>210</DeadlineTime>
     </ROW>
     <ROW>
         <IdProject>3</IdProject>
         <MasterIdUser>1</MasterIdUser>
         <ProjectName>Thank You for Smoking</ProjectName>
-        <Description>Satirical black comedy film written and directed by Jason Reitman and starring Aaron
-            Eckhart</Description>
+        <Description>Satirical black comedy film written and starring Aaron Eckhart</Description>
         <CreateTime>1</CreateTime>
-        <DeadlineTime>1</DeadlineTime>
+        <DeadlineTime>2333</DeadlineTime>
+    </ROW>
+    <ROW>
+        <IdProject>4</IdProject>
+        <MasterIdUser>2</MasterIdUser>
+        <ProjectName>Date structure</ProjectName>
+        <Description>Hey, guys.</Description>
+        <CreateTime>0</CreateTime>
+        <DeadlineTime>0</DeadlineTime>
     </ROW>
 </DATA>

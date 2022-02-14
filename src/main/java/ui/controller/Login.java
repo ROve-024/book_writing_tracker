@@ -13,7 +13,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import utils.InitialWindows;
+import utils.WindowsUtils;
 import utils.JsonUtils;
 import utils.OtherUtils;
 import utils.UserUtils;
@@ -101,7 +101,7 @@ public class Login {
                 e.printStackTrace();
             }
             assert root != null;
-            InitialWindows.initial(root, (Stage) signUpButton.getScene().getWindow());
+            WindowsUtils.initial(root, (Stage) signUpButton.getScene().getWindow());
             signUpButton.getScene().setRoot(root);
         } else {
             wrongInputTips.setVisible(true);
@@ -138,7 +138,7 @@ public class Login {
             e.printStackTrace();
         }
         assert root != null;
-        InitialWindows.initial(root, stage);
+        WindowsUtils.initial(root, stage);
         forgetPasswordButton.getScene().setRoot(root);
     }
 
@@ -155,7 +155,7 @@ public class Login {
             e.printStackTrace();
         }
         assert root != null;
-        InitialWindows.initial(root, (Stage) signUpButton.getScene().getWindow());
+        WindowsUtils.initial(root, (Stage) signUpButton.getScene().getWindow());
         signUpButton.getScene().setRoot(root);
     }
 

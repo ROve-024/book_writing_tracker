@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../../resources/css/styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainPage">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainPage">
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1080.0">
          <children>
@@ -19,19 +19,33 @@
             <AnchorPane layoutX="50.0" prefHeight="720.0" prefWidth="284.0">
                <children>
                   <Label layoutX="14.0" layoutY="31.0" styleClass="title" text="Project" />
-                  <JFXTextField focusColor="#f8740a" layoutX="15.0" layoutY="68.0" prefHeight="29.0" prefWidth="255.0" promptText="Press enter to create a new project." unFocusColor="#7f7f7f">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="input-light" />
-                        <String fx:value="text-field-without-line" />
-                     </styleClass></JFXTextField>
-                  <AnchorPane layoutY="107.0" prefHeight="1.0" prefWidth="284.0" styleClass="decoration-line" />
                   <ScrollPane fx:id="projectScrollArea" layoutY="108.0" prefHeight="612.0" prefWidth="284.0" />
+                  <FlowPane layoutY="72.0" prefHeight="23.0" prefWidth="284.0">
+                     <children>
+                        <JFXButton fx:id="createTimeButton" onAction="#sortProjectByCreateTimeAction" prefHeight="35.0" prefWidth="94.0" styleClass="btn-sort" text="Create Time" />
+                        <AnchorPane prefHeight="23.0" prefWidth="1.0" />
+                        <JFXButton fx:id="deadlineButton" onAction="#sortProjectByDeadLineAction" prefHeight="35.0" prefWidth="94.0" styleClass="btn-sort" text="Deadline" />
+                        <AnchorPane prefHeight="23.0" prefWidth="1.0" />
+                        <JFXButton fx:id="scheduleButton" onAction="#sortProjectByScheduleAction" prefHeight="35.0" prefWidth="94.0" styleClass="btn-sort" text="Schedule" />
+                     </children>
+                  </FlowPane>
+                  <AnchorPane layoutY="71.0" prefHeight="1.0" prefWidth="284.0" styleClass="decoration-line" />
+                  <AnchorPane layoutY="107.0" prefHeight="1.0" prefWidth="284.0" style="-fx-background-color: #eeeeee;" />
+                  <JFXButton fx:id="newProjectButton" layoutX="235.0" layoutY="31.0" maxHeight="23.0" minHeight="23.0" onAction="#newProjectAction" prefHeight="23.0" prefWidth="35.0" style="-fx-background-color: #99AAAA; -fx-text-fill: #f5f5f5; -fx-font-size: 14px;" styleClass="btn-icon" text="">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="335.0" prefHeight="720.0" prefWidth="405.0" />
+            <AnchorPane layoutX="335.0" prefHeight="720.0" prefWidth="405.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="31.0" styleClass="title" text="Project Name" />
+                  <JFXButton layoutX="355.0" layoutY="25.0" maxHeight="35.0" minHeight="23.0" onAction="#editProjectAction" prefHeight="35.0" prefWidth="50.0" style="-fx-background-color: #f5f5f5; -fx-text-fill: #99AAAA; -fx-font-size: 18; -fx-font-weight: bold;" styleClass="btn-icon" text="">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+               </children></AnchorPane>
             <AnchorPane layoutX="741.0" prefHeight="720.0" prefWidth="339.0">
                <children>
                   <DatePicker layoutX="146.0" layoutY="43.0" />
@@ -53,4 +67,8 @@
          </children>
       </AnchorPane>
    </children>
+   <stylesheets>
+      <URL value="@../../../resources/css/styles.css" />
+      <URL value="@../../../resources/css/date_picker.css" />
+   </stylesheets>
 </AnchorPane>

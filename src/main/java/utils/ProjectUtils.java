@@ -2,8 +2,9 @@ package utils;
 
 import io.project.Project;
 import io.project.ProjectReadWrite;
-import io.task.Task;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -116,7 +117,38 @@ public class ProjectUtils {
     public static double getProjectProcessByIdProject(String idProject) {
         int finished = TaskUtils.getFinishedTaskNumberByIdProject(idProject);
         int total = TaskUtils.getAllTaskNumberByIdProject(idProject);
+        if (total == 0){
+            total = 1;
+        }
         return (1.0 * finished) / total;
+    }
+
+    /**
+     * 使用截止时间顺序排序
+     *
+     * @param projectList 待排序的项目列表
+     */
+    public static void sortTaskByDeadlineOrder(List<Project> projectList) {
+        projectList.sort(Comparator.comparing(Project::getDeadlineTime));
+    }
+
+    /**
+     * 使用创建时间顺序排序
+     *
+     * @param projectList 待排序的项目列表
+     */
+    public static void sortTaskByCreateTimeOrder(List<Project> projectList) {
+        projectList.sort(Comparator.comparing(Project::getCreateTime));
+        Collections.reverse(projectList);
+    }
+
+    /**
+     * 使用项目进度顺序排序
+     *
+     * @param projectList 待排序的项目列表
+     */
+    public static void sortTaskByScheduleOrder(List<Project> projectList) {
+        Collections.sort(projectList);
     }
 
 }

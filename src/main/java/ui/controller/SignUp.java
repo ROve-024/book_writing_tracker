@@ -3,7 +3,7 @@ package ui.controller;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import utils.InitialWindows;
+import utils.WindowsUtils;
 import utils.UserUtils;
 import utils.OtherUtils;
 import javafx.fxml.FXML;
@@ -157,7 +157,7 @@ public class SignUp {
             e.printStackTrace();
         }
         assert root != null;
-        InitialWindows.initial(root, (Stage) signInButton.getScene().getWindow());
+        WindowsUtils.initial(root, (Stage) signInButton.getScene().getWindow());
         signInButton.getScene().setRoot(root);
     }
 

@@ -3,7 +3,7 @@ package ui.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import utils.InitialWindows;
+import utils.WindowsUtils;
 import utils.UserUtils;
 import utils.OtherUtils;
 import javafx.application.Platform;
@@ -190,7 +190,7 @@ public class ForgotPassword {
             e.printStackTrace();
         }
         assert root != null;
-        InitialWindows.initial(root, (Stage) securityQuestion.getScene().getWindow());
+        WindowsUtils.initial(root, (Stage) securityQuestion.getScene().getWindow());
         securityQuestion.getScene().setRoot(root);
     }
 

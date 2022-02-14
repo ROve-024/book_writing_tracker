@@ -1,12 +1,14 @@
 package io.project;
 
+import utils.ProjectUtils;
+
 /**
  * Project数据
  *
  * @author CUI, Bingzhe
  * @version 1.0
  **/
-public class Project {
+public class Project implements Comparable<Project>{
     private String idProject;
     private String masterIdUser;
     private String projectName;
@@ -148,5 +150,11 @@ public class Project {
                 "deadline time: " + deadlineTime + "\n" +
                 "----------------------------\n";
 
+    }
+
+    @Override
+    public int compareTo(Project project) {
+        System.out.println(project.getIdProject() + ": " + Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject())));
+        return (int) Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject()));
     }
 }

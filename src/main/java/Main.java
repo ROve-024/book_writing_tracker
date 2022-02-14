@@ -1,7 +1,7 @@
 import com.alibaba.fastjson.JSONObject;
 
 import utils.JsonUtils;
-import utils.InitialWindows;
+import utils.WindowsUtils;
 import utils.OtherUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +40,7 @@ public class Main extends Application {
             }
         }
         assert root != null;
-        InitialWindows.initial(root, stage);
+        WindowsUtils.initial(root, stage);
         stage.setScene(new Scene(root));
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);

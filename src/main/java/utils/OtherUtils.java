@@ -8,6 +8,9 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * 一些多次使用的工具
@@ -46,5 +49,17 @@ public class OtherUtils {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node node = nodeList.item(0);
         return node.getNodeValue();
+    }
+
+    /**
+     * 将LocalDate转换为long
+     *
+     * @param localDate
+     * @return 返回时间戳
+     */
+    public static long conventLocalDateToLong(LocalDate localDate) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        return date.getTime();
     }
 }

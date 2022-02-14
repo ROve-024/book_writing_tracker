@@ -24,6 +24,13 @@
     -fx-text-alignment: center;
 }
 
+.label-normal{
+    -fx-font-size: 14px;
+    -fx-font-family: Arial;
+    -fx-text-fill: #555555;
+}
+
+
 .jfx-text-field {
     -fx-prompt-text-fill: #989898;
 }
@@ -66,8 +73,24 @@
     -fx-font-size: 14px;
 }
 
+.btn-sort{
+    -fx-font-size: 13px;
+    -fx-text-fill: #777777;
+    -fx-background-color: #eeeeee;
+    -fx-text-alignment: center;
+    -fx-cursor: pointer;
+}
+
+.btn-sort:hover {
+    -fx-opacity: 0.8;
+}
+
 .text-field-without-line{
-    -fx-background-color: #e5e5e5;
+    -fx-font-family: Arial;
+    -fx-text-fill: #777777;
+    -fx-font-size: 18px;
+    -fx-prompt-text-fill: #bbbbbb;
+    -fx-background-color: #f5f5f5;
     -jfx-focus-color: #f5f5f5;
     -jfx-unfocus-color: #f5f5f5;
     -fx-padding: 5px, 0;
@@ -79,5 +102,5 @@
 
 .scroll-pane{
     -fx-background-color:transparent;
-    
+
 }
