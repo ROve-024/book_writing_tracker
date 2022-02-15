@@ -119,10 +119,8 @@ public class Login {
                     }
                     Platform.runLater(() -> loginButton.setDisable(false));
                 }).start();
-
             }
         }
-
     }
 
     /**

@@ -38,7 +38,7 @@ public class ProjectUtils {
      * @param projectList 已有的任务列表
      * @return 返回最大id
      */
-    public static int maxProjectId(List<Project> projectList) {
+    public static int getNextNewProjectId(List<Project> projectList) {
         int cnt = 0;
         Project project;
         for (Project value : projectList) {
@@ -48,7 +48,7 @@ public class ProjectUtils {
                 cnt = temp;
             }
         }
-        return cnt;
+        return cnt + 1;
     }
 
     /**
@@ -148,7 +148,10 @@ public class ProjectUtils {
      * @param projectList 待排序的项目列表
      */
     public static void sortTaskByScheduleOrder(List<Project> projectList) {
-        Collections.sort(projectList);
+        for(Project project : projectList){
+            project.setProgressSituation((int) Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject())));
+        }
+        projectList.sort(Comparator.comparing(Project::getProgressSituation));
     }
 
 }

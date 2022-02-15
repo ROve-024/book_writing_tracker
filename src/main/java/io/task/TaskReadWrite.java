@@ -68,9 +68,10 @@ public class TaskReadWrite {
             task.setIdProject(getXMLTagValue(element, "IdProject"));
             task.setIdUser(getXMLTagValue(element, "IdUser"));
             task.setStatus(getXMLTagValue(element, "Status"));
+            task.setTaskTitle(getXMLTagValue(element, "TaskTitle"));
             task.setCreateTime(Long.parseLong(getXMLTagValue(element, "CreateTime")));
             task.setDeadlineTime(Long.parseLong(getXMLTagValue(element, "DeadlineTime")));
-            task.setDescription(getXMLTagValue(element, "Status"));
+            task.setDescription(getXMLTagValue(element, "Description"));
 
         }
         return task;
@@ -104,7 +105,7 @@ public class TaskReadWrite {
                 idParentTask.setTextContent(temp.getIdParentTask());
                 task.appendChild(idParentTask);
 
-                Element idProject = document.createElement("idProject");
+                Element idProject = document.createElement("IdProject");
                 idProject.setTextContent(temp.getIdProject());
                 task.appendChild(idProject);
 
@@ -115,6 +116,10 @@ public class TaskReadWrite {
                 Element status = document.createElement("Status");
                 status.setTextContent(temp.getStatus());
                 task.appendChild(status);
+
+                Element taskTitle = document.createElement("TaskTitle");
+                taskTitle.setTextContent(temp.getTaskTitle());
+                task.appendChild(taskTitle);
 
                 Element createTime = document.createElement("CreateTime");
                 createTime.setTextContent("" + temp.getCreateTime());

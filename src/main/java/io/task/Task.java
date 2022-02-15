@@ -1,5 +1,9 @@
 package io.task;
 
+import utils.TaskUtils;
+
+import java.util.Date;
+
 /**
  * Task数据
  *
@@ -12,6 +16,7 @@ public class Task {
     private String idProject;
     private String idUser;
     private String status;
+    private String taskTitle;
     private long createTime;
     private long deadlineTime;
     private String description;
@@ -22,10 +27,11 @@ public class Task {
     public Task() {
         idTask = "NULL";
         idParentTask = "NULL";
-        idProject = "NULL";
-        idUser = "NULL";
-        status = "NULL";
-        createTime = -1;
+        idProject = "";
+        idUser = "";
+        status = "unfinished";
+        taskTitle = "";
+        createTime = new Date().getTime();
         deadlineTime = -1;
         description = "NULL";
     }
@@ -175,6 +181,24 @@ public class Task {
     }
 
     /**
+     * Gets taskTitle
+     *
+     * @return value of taskTitle
+     */
+    public String getTaskTitle() {
+        return taskTitle;
+    }
+
+    /**
+     * Set taskTitle
+     *
+     * @param taskTitle set value of taskTitle
+     */
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+    }
+
+    /**
      * @return 将task对象用字符串表示
      */
     public String toString() {
@@ -185,6 +209,7 @@ public class Task {
                 "idProject: " + idProject + "\n" +
                 "idUser: " + idUser + "\n" +
                 "status: " + status + "\n" +
+                "task title: " + taskTitle + "\n" +
                 "create time: " + createTime + "\n" +
                 "deadline time" + deadlineTime + "\n" +
                 "description" + description + "\n" +

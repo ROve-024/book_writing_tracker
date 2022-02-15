@@ -2,19 +2,22 @@ package io.project;
 
 import utils.ProjectUtils;
 
+import java.util.Date;
+
 /**
  * Project数据
  *
  * @author CUI, Bingzhe
  * @version 1.0
  **/
-public class Project implements Comparable<Project>{
+public class Project{
     private String idProject;
     private String masterIdUser;
     private String projectName;
     private String description;
     private long createTime;
     private long deadlineTime;
+    private int progressSituation;
 
     /**
      * 初始化任务数据
@@ -24,8 +27,9 @@ public class Project implements Comparable<Project>{
         masterIdUser = "NULL";
         projectName = "NULL";
         description = "NULL";
-        createTime = -1;
+        createTime = new Date().getTime();
         deadlineTime = -1;
+        progressSituation = 0;
     }
 
     /**
@@ -137,6 +141,24 @@ public class Project implements Comparable<Project>{
     }
 
     /**
+     * Gets progressSituation
+     *
+     * @return value of progressSituation
+     */
+    public int getProgressSituation() {
+        return progressSituation;
+    }
+
+    /**
+     * Set progressSituation
+     *
+     * @param progressSituation set value of progressSituation
+     */
+    public void setProgressSituation(int progressSituation) {
+        this.progressSituation = progressSituation;
+    }
+
+    /**
      * @return 将Project对象用字符串表示
      */
     public String toString() {
@@ -152,9 +174,4 @@ public class Project implements Comparable<Project>{
 
     }
 
-    @Override
-    public int compareTo(Project project) {
-        System.out.println(project.getIdProject() + ": " + Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject())));
-        return (int) Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject()));
-    }
 }

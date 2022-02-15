@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -61,5 +62,15 @@ public class OtherUtils {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         return date.getTime();
+    }
+
+    /**
+     * 将long转换为LocalDate
+     *
+     * @param timestamp
+     * @return 返回相应的localDate
+     */
+    public static LocalDate conventLongToLocalDate(long timestamp) {
+        return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

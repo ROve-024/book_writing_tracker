@@ -30,6 +30,12 @@
     -fx-text-fill: #555555;
 }
 
+.label-player{
+    -fx-font-size: 16px;
+    -fx-font-family: Arial;
+    -fx-text-alignment: right;
+}
+
 
 .jfx-text-field {
     -fx-prompt-text-fill: #989898;
@@ -79,6 +85,7 @@
     -fx-background-color: #eeeeee;
     -fx-text-alignment: center;
     -fx-cursor: pointer;
+    -fx-background-radius: 0;
 }
 
 .btn-sort:hover {
@@ -96,11 +103,60 @@
     -fx-padding: 5px, 0;
 }
 
+.text-field-without-line-background{
+    -fx-font-family: Arial;
+    -fx-text-fill: #777777;
+    -fx-font-size: 14px;
+    -fx-pref-height: 30px;
+    -fx-prompt-text-fill: #bbbbbb;
+    -fx-background-color: #eeeeee;
+    -jfx-focus-color: #f5f5f5;
+    -jfx-unfocus-color: #f5f5f5;
+    -fx-padding: 5px, 0;
+}
+
+.text-field-without-line-title{
+    -fx-font-family: Arial;
+    -fx-text-fill: #777777;
+    -fx-font-size: 16px;
+    -fx-prompt-text-fill: #bbbbbb;
+    -fx-background-color: #f5f5f5;
+    -jfx-focus-color: #f5f5f5;
+    -jfx-unfocus-color: #f5f5f5;
+    -fx-padding: 5px, 0;
+}
+
 .decoration-line{
-    -fx-background-color: #dddddd;
+    -fx-background-color: #eeeeee;
 }
 
 .scroll-pane{
     -fx-background-color:transparent;
-
 }
+
+.item-container:hover {
+    -fx-background-color: #fafafa;
+}
+
+.exit-button{
+    -fx-background-image: url("images/exit.png") !important;
+    -fx-background-size: 60%, 60%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+
+.jfx-check-box .box{
+    -fx-pref-height: 14px;
+    -fx-pref-width: 14px;
+}
+
+.jfx-check-box .mark{
+    -fx-max-width: 14px;
+    -fx-max-height: 14px;
+}
+
+.jfx-check-box{
+    -fx-text-fill: #555555;
+}
+
+

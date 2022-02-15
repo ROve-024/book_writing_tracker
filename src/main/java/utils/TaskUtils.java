@@ -33,12 +33,12 @@ public class TaskUtils {
     }
 
     /**
-     * 获取最大的任务id值
+     * 获取下一个任务id
      *
      * @param taskList 已有的任务列表
-     * @return 返回最大id
+     * @return 返回下一个任务id
      */
-    public static int maxTaskId(List<Task> taskList) {
+    public static int getNextTaskId(List<Task> taskList) {
         int cnt = 0;
         Task task;
         for (Task value : taskList) {
@@ -48,7 +48,7 @@ public class TaskUtils {
                 cnt = temp;
             }
         }
-        return cnt;
+        return cnt + 1;
     }
 
     /**
@@ -132,7 +132,7 @@ public class TaskUtils {
     public static List<Task> getUnfinishedTaskListByIdProject(String idProject) {
         List<Task> taskList = new ArrayList<>();
         for (Task value : getTaskList()) {
-            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && !value.getStatus().equals("finished")) {
+            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && value.getStatus().equals("unfinished")) {
                 taskList.add(value);
             }
         }
@@ -234,7 +234,7 @@ public class TaskUtils {
      * @param idProject project id
      */
     public static int getAllTaskNumberByIdProject(String idProject) {
-        return getTaskListByIdProject(idProject).size();
+        return getFinishedTaskListByIdProject(idProject).size() + getUnfinishedTaskListByIdProject(idProject).size();
     }
 
     /**
