@@ -80,4 +80,20 @@ public class JsonUtils {
 
     }
 
+    /**
+     * 获取的buffer
+     *
+     */
+    public static JSONObject getBuffer(){
+        return getJsonObjectFromFile("src/main/resources/buffer/session.json");
+    }
+
+    /**
+     * 设置的buffer
+     *
+     */
+    public static void setBuffer(JSONObject jsonObject){
+        saveJsonToFile(jsonObject,"src/main/resources/buffer/session.json");
+    }
+
 }

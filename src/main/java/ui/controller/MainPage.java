@@ -1,5 +1,6 @@
 package ui.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -9,10 +10,10 @@ import io.project.Project;
 import io.task.Task;
 import io.user.User;
 import io.userproject.UserProject;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -26,6 +27,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import utils.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,6 +37,12 @@ import java.util.List;
 
 public class MainPage {
     private final Popup popup = new Popup();
+    @FXML
+    private JFXButton homepageButton;
+    @FXML
+    private JFXButton myTaskButton;
+    @FXML
+    private JFXButton recycleBinButton;
     @FXML
     private AnchorPane titleBar;
     @FXML
@@ -56,6 +65,8 @@ public class MainPage {
     private Label writerSelectButton;
     @FXML
     private Label proofreaderSelectButton;
+    @FXML
+    private Label taskCreaterUsername;
     @FXML
     private JFXButton deadlineButton;
     @FXML
@@ -94,57 +105,87 @@ public class MainPage {
         projectNoTaskTip.setVisible(false);
         wrongTaskTitleTip.setVisible(false);
         clearTaskDetailArea();
-
         newProjectButton.setOnMouseClicked(event -> {
             if (!popup.isShowing()) {
-                JSONObject projectEditorBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                        "/mainPageBuffer.json");
+                JSONObject projectEditorBuffer = JsonUtils.getBuffer();
                 String option = (String) projectEditorBuffer.get("option");
                 if (option.equals("edit")) {
                     projectEditorBuffer.put("option", "create");
-                    JsonUtils.saveJsonToFile(projectEditorBuffer, "src/main/resources/buffer/mainPageBuffer.json");
+                    JsonUtils.setBuffer(projectEditorBuffer);
                     initialPopupProjectEditor();
                 }
                 popup.show(newProjectButton.getScene().getWindow());
             }
         });
-
         editProjectButton.setOnMouseClicked(event -> {
             if (!popup.isShowing()) {
-                JSONObject projectEditorBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                        "/mainPageBuffer.json");
+                JSONObject projectEditorBuffer = JsonUtils.getBuffer();
                 String option = (String) projectEditorBuffer.get("option");
                 projectEditorBuffer.put("option", "edit");
-                JsonUtils.saveJsonToFile(projectEditorBuffer, "src/main/resources/buffer/mainPageBuffer.json");
+                JsonUtils.setBuffer(projectEditorBuffer);
                 initialPopupProjectEditor();
                 popup.show(newProjectButton.getScene().getWindow());
             }
         });
-
         newTaskInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                String idProject = (String) JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                        "/mainPageBuffer.json").get("idProject");
-                Task task = new Task();
-                task.setIdTask(String.valueOf(TaskUtils.getNextTaskId(TaskUtils.getTaskList())));
-                task.setIdUser(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources" +
-                        "/buffer/infoLogin.json").get("username")));
-                task.setTaskTitle(newTaskInput.getText());
-                task.setIdProject(idProject);
-                TaskUtils.createTask(task);
-                updateTaskListArea(idProject);
-                JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
-                if (buffer.get("sortMethod").toString().equals("createTime")) {
-                    sortProjectByCreateTimeAction();
-                } else if (buffer.get("sortMethod").toString().equals("deadline")) {
-                    sortProjectByDeadLineAction();
-                } else if (buffer.get("sortMethod").toString().equals("schedule")) {
-                    sortProjectByScheduleAction();
+                if (!newTaskInput.getText().isEmpty()){
+                    JSONObject buffer = JsonUtils.getBuffer();
+                    String idProject = (String) buffer.get("idProject");
+                    Task task = new Task();
+                    task.setIdTask(String.valueOf(TaskUtils.getNextTaskId(TaskUtils.getTaskList())));
+                    task.setIdUser(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get("username")));
+                    task.setTaskTitle(newTaskInput.getText());
+                    task.setIdProject(idProject);
+                    TaskUtils.createTask(task);
+                    updateTaskListArea();
+                    if (buffer.get("sortMethod").toString().equals("createTime")) {
+                        sortProjectByCreateTimeAction();
+                    } else if (buffer.get("sortMethod").toString().equals("deadline")) {
+                        sortProjectByDeadLineAction();
+                    } else if (buffer.get("sortMethod").toString().equals("schedule")) {
+                        sortProjectByScheduleAction();
+                    }
                 }
             }
         });
+        taskTitle.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (!t1) {
+                if (taskTitle.getText().isEmpty()) {
+                    wrongTaskTitleTip.setVisible(true);
+                } else {
+                    wrongTaskTitleTip.setVisible(false);
+                    JSONObject buffer = JsonUtils.getBuffer();
+                    Task task = TaskUtils.getTaskByIdTask(buffer.get("idTask").toString());
+                    task.setTaskTitle(taskTitle.getText());
+                    TaskUtils.updateTaskList(task);
+                    updateTaskListArea();
+                    updateTaskDetailArea();
+                }
 
-
+            }
+        });
+        taskDeadline.focusedProperty().addListener((observableValue, aBoolean, t1) ->{
+            if (!t1 && !(taskDeadline.getValue() == null)){
+                JSONObject buffer = JsonUtils.getBuffer();
+                Task task = TaskUtils.getTaskByIdTask(buffer.get("idTask").toString());
+                task.setDeadlineTime(OtherUtils.conventLocalDateToLong(taskDeadline.getValue()));
+                TaskUtils.updateTaskList(task);
+                updateTaskListArea();
+                updateTaskDetailArea();
+            }
+        });
+        taskDescription.focusedProperty().addListener((observableValue, aBoolean, t1) ->{
+            if (!t1 && !taskDescription.getText().isEmpty()){
+                JSONObject buffer = JsonUtils.getBuffer();
+                Task task = TaskUtils.getTaskByIdTask(buffer.get("idTask").toString());
+                task.setDescription(taskDescription.getText());
+                TaskUtils.updateTaskList(task);
+                updateTaskListArea();
+                updateTaskDetailArea();
+            }
+        });
+        WindowsUtils.toolBarInitial(homepageButton, myTaskButton, recycleBinButton);
     }
 
     /**
@@ -169,14 +210,16 @@ public class MainPage {
      */
     @FXML
     protected void sortProjectByDeadLineAction() {
-        List<Project> projectList = UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/infoLogin.json").get("username")));
+        List<Project> projectList =
+                UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get(
+                        "username")));
         ProjectUtils.sortTaskByDeadlineOrder(projectList);
         deadlineButton.setStyle("-fx-text-fill: #eeeeee; -fx-background-color: #9EA9B0; -fx-font-weight: bold");
         createTimeButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
         scheduleButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
-        JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
+        JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("sortMethod", "deadline");
-        JsonUtils.saveJsonToFile(buffer, "src/main/resources/buffer/mainPageBuffer.json");
+        JsonUtils.setBuffer(buffer);
         updateProjectListArea(projectList);
     }
 
@@ -185,14 +228,16 @@ public class MainPage {
      */
     @FXML
     protected void sortProjectByCreateTimeAction() {
-        List<Project> projectList = UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/infoLogin.json").get("username")));
+        List<Project> projectList =
+                UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get(
+                        "username")));
         ProjectUtils.sortTaskByCreateTimeOrder(projectList);
         createTimeButton.setStyle("-fx-text-fill: #eeeeee; -fx-background-color: #9EA9B0; -fx-font-weight: bold");
         deadlineButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
         scheduleButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
-        JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
+        JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("sortMethod", "createTime");
-        JsonUtils.saveJsonToFile(buffer, "src/main/resources/buffer/mainPageBuffer.json");
+        JsonUtils.setBuffer(buffer);
         updateProjectListArea(projectList);
     }
 
@@ -201,15 +246,71 @@ public class MainPage {
      */
     @FXML
     protected void sortProjectByScheduleAction() {
-        List<Project> projectList = UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/infoLogin.json").get("username")));
+        List<Project> projectList =
+                UserProjectUtils.getProjectListByUserId(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get(
+                        "username")));
         ProjectUtils.sortTaskByScheduleOrder(projectList);
         scheduleButton.setStyle("-fx-text-fill: #eeeeee; -fx-background-color: #9EA9B0; -fx-font-weight: bold");
         createTimeButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
         deadlineButton.setStyle("-fx-text-fill: #777777; -fx-background-color: #eeeeee; -fx-font-weight: normal");
-        JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
+        JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("sortMethod", "schedule");
-        JsonUtils.saveJsonToFile(buffer, "src/main/resources/buffer/mainPageBuffer.json");
+        JsonUtils.setBuffer(buffer);
         updateProjectListArea(projectList);
+    }
+
+    @FXML
+    protected void homepageButtonAction(){
+        initialize();
+    }
+
+    @FXML
+    protected void myTaskButtonAction(){
+        JSONObject buffer = JsonUtils.getBuffer();
+        buffer.put("page", "myTask");
+        JsonUtils.setBuffer(buffer);
+
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/MyTask.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert root != null;
+        WindowsUtils.initial(root, (Stage) projectTitle.getScene().getWindow());
+        projectTitle.getScene().setRoot(root);
+    }
+
+    @FXML
+    protected void recycleBinButtonAction(){
+        JSONObject buffer = JsonUtils.getBuffer();
+        buffer.put("page", "recycleBin");
+        JsonUtils.setBuffer(buffer);
+
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/RecycleBin.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert root != null;
+        WindowsUtils.initial(root, (Stage) projectTitle.getScene().getWindow());
+        projectTitle.getScene().setRoot(root);
+    }
+
+    @FXML
+    protected void logoutButtonAction(){
+        JSONObject buffer = JsonUtils.getBuffer();
+        buffer.put("status", OtherUtils.encryptByMD5("false"));
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert root != null;
+        WindowsUtils.initial(root, (Stage) projectTitle.getScene().getWindow());
+        projectTitle.getScene().setRoot(root);
     }
 
     /**
@@ -286,7 +387,7 @@ public class MainPage {
             };
             if (Math.round(100 * taskSituation) == 100) {
                 projectSituation.setLayoutX(239);
-            } else if (Math.round(100 * taskSituation) < 10){
+            } else if (Math.round(100 * taskSituation) < 10) {
                 projectSituation.setLayoutX(253);
             }
             projectSituation.setFont(Font.font("Arial", 12));
@@ -307,12 +408,11 @@ public class MainPage {
             projectItem.getChildren().add(bottomDecorationLine);
 
             projectItem.setOnMouseClicked(mouseEvent -> {
-                JSONObject projectEditorBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                        "/mainPageBuffer.json");
-                projectEditorBuffer.put("idProject", projectId.getText());
-                JsonUtils.saveJsonToFile(projectEditorBuffer, "src/main/resources/buffer/mainPageBuffer.json");
+                JSONObject buffer = JsonUtils.getBuffer();
+                buffer.put("idProject", projectId.getText());
+                JsonUtils.setBuffer(buffer);
                 clearTaskDetailArea();
-                updateTaskListArea(projectId.getText());
+                updateTaskListArea();
             });
 
             projectArea.getChildren().add(projectItem);
@@ -329,9 +429,12 @@ public class MainPage {
     /**
      * 更新任务列表栏的内容
      */
-    private void updateTaskListArea(String idProject) {
-        User user = UserUtils.getUserByID(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources" +
-                "/buffer/infoLogin.json").get("username")));
+    private void updateTaskListArea() {
+        JSONObject buffer = JsonUtils.getBuffer();
+        String idProject = buffer.get("idProject").toString();
+        clearTaskDetailArea();
+
+        User user = UserUtils.getUserByID(UserUtils.getIDByUsername((String) buffer.get("username")));
 
         projectTitle.setText(ProjectUtils.getProjectByIdProject(idProject).getProjectName());
         List<Task> finishedTaskList = TaskUtils.getFinishedTaskListByIdProject(idProject);
@@ -392,39 +495,53 @@ public class MainPage {
                         {
                             setLayoutX(14);
                             setLayoutY(12);
-                            setPrefWidth(305);
+                            setPrefWidth(25);
                         }
                     };
+
                     taskCheckBox.setStyle("-fx-font-size: 14px; -jfx-checked-color: #99aaaa; -jfx-unchecked-color: " +
                             "#bbbbbb; -fx-text-fill: #232323");
-                    taskCheckBox.setText(task.getTaskTitle());
-                    if (!task.getIdUser().equals(user.getIdUser())) {
+
+                    Label taskName = new Label(task.getTaskTitle()){
+                        {
+                            setLayoutX(36);
+                            setLayoutY(12);
+                            setPrefWidth(280);
+                        }
+                    };
+
+                    if (!TaskUtils.isTaskAndSubtaskContainUser(task)) {
                         taskCheckBox.setDisable(true);
+                        taskName.setStyle("-fx-font-size: 14px; -fx-text-fill: #777777");
+                    } else {
+                        taskName.setStyle("-fx-font-size: 14px; -fx-text-fill: #232323");
                     }
                     taskItem.getChildren().add(taskCheckBox);
+                    taskItem.getChildren().add(taskName);
 
-                    taskCheckBox.setOnMouseClicked(mouseEvent -> {
-                        JSONObject mainPageBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                                "/mainPageBuffer.json");
-                        mainPageBuffer.put("idTask", task.getIdTask());
-
-                        if (task.getIdUser().equals(user.getIdUser())) {
-                            task.setStatus("finished");
-                            TaskUtils.updateTaskList(task);
-                            JsonUtils.saveJsonToFile(mainPageBuffer, "src/main/resources/buffer/mainPageBuffer.json");
-                            updateTaskListArea((String) mainPageBuffer.get("idProject"));
-
-                            JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
-                            if (buffer.get("sortMethod").toString().equals("createTime")) {
-                                sortProjectByCreateTimeAction();
-                            } else if (buffer.get("sortMethod").toString().equals("deadline")) {
-                                sortProjectByDeadLineAction();
-                            } else if (buffer.get("sortMethod").toString().equals("schedule")) {
-                                sortProjectByScheduleAction();
-                            }
-
-                            updateTaskDetailArea();
+                    taskCheckBox.setOnMouseClicked(mouseEvent ->{
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
+                        task.setStatus("finished");
+                        TaskUtils.updateTaskList(task);
+                        updateTaskListArea();
+                        if (buffer.get("sortMethod").toString().equals("createTime")) {
+                            sortProjectByCreateTimeAction();
+                        } else if (buffer.get("sortMethod").toString().equals("deadline")) {
+                            sortProjectByDeadLineAction();
+                        } else if (buffer.get("sortMethod").toString().equals("schedule")) {
+                            sortProjectByScheduleAction();
                         }
+                        updateTaskDetailArea();
+                    });
+                    taskName.setOnMouseClicked(mouseEvent -> {
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
+                        updateTaskDetailArea();
+                    });
+                    taskItem.setOnMouseClicked(mouseEvent -> {
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
                         updateTaskDetailArea();
                     });
 
@@ -436,7 +553,7 @@ public class MainPage {
                                         .toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) {
                                     {
                                         setLayoutX(315);
-                                        setLayoutY(3);
+                                        setLayoutY(13);
                                     }
                                 };
                         taskDeadline.setStyle("-fx-text-fill: #bbbbbb; -fx-font-size: 14px; -fx-font-style: italic");
@@ -500,37 +617,58 @@ public class MainPage {
                         {
                             setLayoutX(14);
                             setLayoutY(12);
-                            setPrefWidth(305);
+                            setPrefWidth(25);
                         }
                     };
                     taskCheckBox.setSelected(true);
                     taskCheckBox.setStyle("-fx-font-size: 14px; -jfx-checked-color: #99aaaa; -jfx-unchecked-color: " +
                             "#bbbbbb; -fx-text-fill: #232323");
-                    taskCheckBox.setText(task.getTaskTitle());
-                    if (!task.getIdUser().equals(user.getIdUser())) {
-                        taskCheckBox.setDisable(true);
-                    }
-                    taskItem.getChildren().add(taskCheckBox);
+                    taskCheckBox.setText("");
 
-                    taskCheckBox.setOnMouseClicked(mouseEvent -> {
-                        JSONObject mainPageBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                                "/mainPageBuffer.json");
-                        mainPageBuffer.put("idTask", task.getIdTask());
-                        if (task.getIdUser().equals(user.getIdUser())) {
-                            task.setStatus("unfinished");
-                            TaskUtils.updateTaskList(task);
-                            JsonUtils.saveJsonToFile(mainPageBuffer, "src/main/resources/buffer/mainPageBuffer.json");
-                            updateTaskListArea((String) mainPageBuffer.get("idProject"));
-
-                            JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
-                            if (buffer.get("sortMethod").toString().equals("createTime")) {
-                                sortProjectByCreateTimeAction();
-                            } else if (buffer.get("sortMethod").toString().equals("deadline")) {
-                                sortProjectByDeadLineAction();
-                            } else if (buffer.get("sortMethod").toString().equals("schedule")) {
-                                sortProjectByScheduleAction();
-                            }
+                    Label taskName = new Label(task.getTaskTitle()){
+                        {
+                            setLayoutX(36);
+                            setLayoutY(12);
+                            setPrefWidth(280);
                         }
+                    };
+                    taskName.setStyle("-fx-font-size: 14px; -jfx-checked-color: #99aaaa; -jfx-unchecked-color: " +
+                            "#bbbbbb; -fx-text-fill: #232323");
+
+                    if (!TaskUtils.isTaskAndSubtaskContainUser(task)) {
+                        taskCheckBox.setDisable(true);
+                        taskName.setStyle("-fx-font-size: 14px; -fx-text-fill: #777777");
+                    } else {
+                        taskName.setStyle("-fx-font-size: 14px; -fx-text-fill: #232323");
+                    }
+
+                    taskItem.getChildren().add(taskCheckBox);
+                    taskItem.getChildren().add(taskName);
+
+                    taskCheckBox.setOnMouseClicked(mouseEvent ->{
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
+                        task.setStatus("unfinished");
+                        TaskUtils.updateTaskList(task);
+                        updateTaskListArea();
+                        if (buffer.get("sortMethod").toString().equals("createTime")) {
+                            sortProjectByCreateTimeAction();
+                        } else if (buffer.get("sortMethod").toString().equals("deadline")) {
+                            sortProjectByDeadLineAction();
+                        } else if (buffer.get("sortMethod").toString().equals("schedule")) {
+                            sortProjectByScheduleAction();
+                        }
+                        updateTaskDetailArea();
+                    });
+                    taskName.setOnMouseClicked(mouseEvent -> {
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
+                        updateTaskDetailArea();
+                    });
+                    taskItem.setOnMouseClicked(mouseEvent -> {
+                        buffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(buffer);
+                        updateTaskDetailArea();
                     });
 
                     // 设置任务截止日期
@@ -541,7 +679,7 @@ public class MainPage {
                                         .toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))) {
                                     {
                                         setLayoutX(315);
-                                        setLayoutY(3);
+                                        setLayoutY(13);
                                     }
                                 };
                         taskDeadline.setStyle("-fx-text-fill: #bbbbbb; -fx-font-size: 14px; -fx-font-style: italic");
@@ -578,21 +716,33 @@ public class MainPage {
      * 更新任务详细栏的内容
      */
     private void updateTaskDetailArea() {
-        for(Node node : taskDetailArea.getChildren()){
+        for (Node node : taskDetailArea.getChildren()) {
             node.setVisible(true);
         }
         wrongTaskTitleTip.setVisible(false);
 
-        JSONObject buffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/mainPageBuffer.json");
+        JSONObject buffer = JsonUtils.getBuffer();
         Task task = TaskUtils.getTaskByIdTask((String) buffer.get("idTask"));
+        taskCreaterUsername.setText(UserUtils.getUserByID(task.getIdUser()).getUsername());
         taskTitle.setText(task.getTaskTitle());
-        if (!task.getDescription().equals("NULL")){
+        if (!task.getDescription().equals("NULL")) {
             taskDescription.setText(task.getDescription());
+        }else {
+            taskDescription.setText("");
         }
-        if (task.getDeadlineTime() != -1){
+        if (task.getDeadlineTime() != -1) {
             taskDeadline.setValue(OtherUtils.conventLongToLocalDate(task.getDeadlineTime()));
         }
 
+        if(!task.getIdUser().equals(buffer.get("idUser"))){
+            for( Node node : taskDetailArea.getChildren()){
+                node.setDisable(true);
+            }
+        }else {
+            for( Node node : taskDetailArea.getChildren()){
+                node.setDisable(false);
+            }
+        }
 
 
     }
@@ -603,8 +753,7 @@ public class MainPage {
     private void initialPopupProjectEditor() {
         popup.setAutoHide(true);
 
-        JSONObject projectEditorBuffer = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer" +
-                "/mainPageBuffer.json");
+        JSONObject projectEditorBuffer = JsonUtils.getBuffer();
         String option = (String) projectEditorBuffer.get("option");
 
         AnchorPane projectEditorArea = new AnchorPane() {
@@ -738,8 +887,7 @@ public class MainPage {
             projectDescription.setText(project.getDescription());
             LocalDate date = OtherUtils.conventLongToLocalDate(project.getDeadlineTime());
             datePicker.setValue(date);
-            String idUser = UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile("src/main/resources" +
-                    "/buffer/infoLogin.json").get("username"));
+            String idUser = UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get("username"));
             if (!idUser.equals(project.getMasterIdUser())) {
                 Label onlyReadTip = new Label("Only the project manager can edit") {
                     {
@@ -763,56 +911,50 @@ public class MainPage {
 
         }
 
-        saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    datePicker.getValue().equals(null);
-                    if (projectTitle.getText().isEmpty()) {
-                        wrongProjectTitleTip.setVisible(true);
-                        wrongProjectDeadlineTip.setVisible(false);
-                    } else {
-                        wrongProjectTitleTip.setVisible(false);
-                        Project project = new Project();
-                        project.setIdProject(String.valueOf(ProjectUtils.getNextNewProjectId(ProjectUtils.getProjectList())));
-                        project.setMasterIdUser(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile(
-                                "src/main/resources/buffer/infoLogin.json").get("username")));
-                        project.setProjectName(projectTitle.getText());
-                        project.setDescription(projectDescription.getText());
-                        project.setDeadlineTime(OtherUtils.conventLocalDateToLong(datePicker.getValue()));
-                        if (option.equals("create")) {
-                            ProjectUtils.createProject(project);
-                        } else if (option.equals("edit")) {
-                            ProjectUtils.updateProjectList(project);
-                        }
-
-                        UserProject userProject = new UserProject();
-                        userProject.setIdProject(project.getIdProject());
-                        userProject.setIdUser(UserUtils.getIDByUsername((String) JsonUtils.getJsonObjectFromFile(
-                                "src/main/resources/buffer/infoLogin.json").get("username")));
-                        UserProjectUtils.createUserProject(userProject);
-
-                        projectTitle.setText("");
-                        projectDescription.setText("");
-                        datePicker.setValue(null);
-                        popup.hide();
-
-                        sortProjectByCreateTimeAction();
-                    }
-                } catch (NullPointerException ignored) {
-                    wrongProjectDeadlineTip.setVisible(true);
-                    wrongProjectTitleTip.setVisible(false);
+        saveButton.setOnAction(event -> {
+            if (datePicker.getValue() == null) {
+                System.out.println(datePicker.getValue());
+                wrongProjectDeadlineTip.setVisible(true);
+                wrongProjectTitleTip.setVisible(false);
+            } else if (projectTitle.getText().isEmpty()) {
+                wrongProjectTitleTip.setVisible(true);
+                wrongProjectDeadlineTip.setVisible(false);
+            } else {
+                wrongProjectTitleTip.setVisible(false);
+                Project project = new Project();
+                project.setIdProject(String.valueOf(ProjectUtils.getNextNewProjectId(ProjectUtils.getProjectList())));
+                project.setMasterIdUser(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get("username")));
+                project.setProjectName(projectTitle.getText());
+                project.setDescription(projectDescription.getText());
+                project.setDeadlineTime(OtherUtils.conventLocalDateToLong(datePicker.getValue()));
+                if (option.equals("create")) {
+                    ProjectUtils.createProject(project);
+                } else if (option.equals("edit")) {
+                    ProjectUtils.updateProjectList(project);
                 }
 
+                UserProject userProject = new UserProject();
+                userProject.setIdProject(project.getIdProject());
+                userProject.setIdUser(UserUtils.getIDByUsername((String) JsonUtils.getBuffer().get("username")));
+                UserProjectUtils.createUserProject(userProject);
+
+                projectTitle.setText("");
+                projectDescription.setText("");
+                datePicker.setValue(null);
+                popup.hide();
+
+                sortProjectByCreateTimeAction();
             }
+
+
         });
 
         popup.getContent().add(projectEditorArea);
 
     }
 
-    private void clearTaskDetailArea(){
-        for(Node node : taskDetailArea.getChildren()){
+    private void clearTaskDetailArea() {
+        for (Node node : taskDetailArea.getChildren()) {
             node.setVisible(false);
         }
     }

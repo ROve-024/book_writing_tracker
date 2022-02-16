@@ -42,15 +42,15 @@
                </font>
             </JFXPasswordField>
             <Label fx:id="formatWrongInputTips" layoutX="92.0" layoutY="304.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="Must be 6-16 characters with both number and letter." textFill="#e23241" />
-            <JFXComboBox fx:id="securityQuestionBox" focusColor="#f8740a" layoutX="92.0" layoutY="417.0" prefHeight="23.0" prefWidth="300.0" promptText="Choose a question to reset password." unFocusColor="#7d7d7d" />
+            <JFXComboBox fx:id="securityQuestionBox" focusColor="#f8740a" layoutX="92.0" layoutY="422.0" prefHeight="23.0" prefWidth="300.0" promptText="Choose a question to reset password." unFocusColor="#7d7d7d" />
             <Label fx:id="usernameWrongInputTips" layoutX="92.0" layoutY="244.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="The username already exists." textFill="#e23241" />
             <Label layoutX="92.0" layoutY="397.0" styleClass="normal-tip" text="Security Question" />
-            <JFXTextField id="username" fx:id="questionAnswerInput" focusColor="#f8740a" layoutX="92.0" layoutY="452.0" prefHeight="34.0" prefWidth="300.0" promptText="Answer to question" styleClass="input">
+            <JFXTextField id="username" fx:id="questionAnswerInput" focusColor="#f8740a" layoutX="92.0" layoutY="457.0" prefHeight="34.0" prefWidth="300.0" promptText="Answer to question" styleClass="input">
                <font>
                   <Font size="16.0" />
                </font>
             </JFXTextField>
-            <Label fx:id="answerWrongInputTips" layoutX="92.0" layoutY="487.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="This item cannot be empty." textFill="#e23241" />
+            <Label fx:id="answerWrongInputTips" layoutX="92.0" layoutY="492.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="This item cannot be empty." textFill="#e23241" />
             <Label fx:id="usernameEmptyInputTips" layoutX="92.0" layoutY="244.0" prefHeight="21.0" prefWidth="300.0" styleClass="wrong-tip" text="The username cannot be empty." textFill="#e23241" />
             <FlowPane layoutX="131.0" layoutY="669.0" prefHeight="23.0" prefWidth="217.0">
                <children>

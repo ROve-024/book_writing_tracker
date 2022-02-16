@@ -28,7 +28,7 @@ import java.io.IOException;
  * @version 1.0
  */
 public class Login {
-    JSONObject user;
+    JSONObject buffer;
     private int mistake = 0;
 
     @FXML
@@ -57,8 +57,10 @@ public class Login {
     private void initialize() {
         wrongInputTips.setVisible(false);
         tooManyWrongInputTips.setVisible(false);
-        user = JsonUtils.getJsonObjectFromFile("src/main/resources/buffer/infoLogin.json");
-        usernameInput.setText((String) user.get("username"));
+        buffer = JsonUtils.getBuffer();
+        usernameInput.setText((String) buffer.get("username"));
+        rememberMeCheckbox.setStyle("-jfx-checked-color: #99aaaa; -jfx-unchecked-color: #bbbbbb; -fx-text-fill: " +
+                "#777777");
     }
 
     /**
@@ -86,13 +88,15 @@ public class Login {
         String username = usernameInput.getText();
         String password = OtherUtils.encryptByMD5(passwordInput.getText());
         if (UserUtils.loginMatch(username, password)) {
-            user.put("username", username);
+            buffer.put("username", username);
+            buffer.put("idUser", UserUtils.getIDByUsername(username));
+            buffer.put("page", "homePage");
             if (rememberMeCheckbox.isSelected()) {
-                user.put("status", OtherUtils.encryptByMD5("true"));
+                buffer.put("status", OtherUtils.encryptByMD5("true"));
             } else {
-                user.put("status", OtherUtils.encryptByMD5("false"));
+                buffer.put("status", OtherUtils.encryptByMD5("false"));
             }
-            JsonUtils.saveJsonToFile(user, "src/main/resources/buffer/infoLogin.json");
+            JsonUtils.setBuffer(buffer);
             wrongInputTips.setVisible(false);
             Parent root = null;
             try {

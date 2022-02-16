@@ -1,7 +1,9 @@
 package utils;
 
+import com.alibaba.fastjson.JSONObject;
 import io.task.Task;
 import io.task.TaskReadWrite;
+import io.user.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -120,7 +122,7 @@ public class TaskUtils {
                 taskList.add(value);
             }
         }
-        return taskList;
+        return sortTaskByDefaultOder(taskList);
     }
 
     /**
@@ -136,7 +138,7 @@ public class TaskUtils {
                 taskList.add(value);
             }
         }
-        return taskList;
+        return sortTaskByDefaultOder(taskList);
     }
 
     /**
@@ -145,7 +147,7 @@ public class TaskUtils {
      * @param idParentTask parent task id
      * @return 返回相应的子任务列表
      */
-    public static List<Task> getTaskListByIdParentTask(String idParentTask) {
+    public static List<Task> getSubtaskListByIdParentTask(String idParentTask) {
         List<Task> taskList = new ArrayList<>();
         for (Task value : getTaskList()) {
             if (value.getIdParentTask().equals(idParentTask)) {
@@ -154,6 +156,28 @@ public class TaskUtils {
         }
         return taskList;
     }
+
+    /**
+     * 检测任务执行人/创建人是否包含当前用户
+     *
+     * @param task 需要进行判断的Task对象
+     */
+    public static boolean isTaskAndSubtaskContainUser(Task task){
+        boolean result = false;
+        User user = UserUtils.getUserByUsername((String) JsonUtils.getBuffer().get("username"));
+        if(task.getIdUser().equals(user.getIdUser())){
+            result =  true;
+        } else {
+            for(Task subtask : getSubtaskListByIdParentTask(task.getIdTask())){
+                if (subtask.getIdUser().equals(user.getIdUser())) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
 
     /**
      * 使用idTask删除任务
@@ -186,6 +210,29 @@ public class TaskUtils {
             }
         }
         writeTaskXML(taskList);
+    }
+
+    /**
+     * 使用默认方式，有截止日期排在前，无截止日期排在后
+     *
+     * @param taskList 待排序的任务列表
+     */
+    public static List<Task> sortTaskByDefaultOder(List<Task> taskList){
+        List<Task> result = new ArrayList<>();
+        List<Task> withDeadlineList = new ArrayList<>();
+        List<Task> withoutDeadlineList = new ArrayList<>();
+        for(Task task : taskList){
+            if(task.getDeadlineTime() == -1){
+                withoutDeadlineList.add(task);
+            }else {
+                withDeadlineList.add(task);
+            }
+        }
+        sortTaskByDeadlineOrder(withDeadlineList);
+        sortTaskByCreateReversedOrder(withoutDeadlineList);
+        result.addAll(withDeadlineList);
+        result.addAll(withoutDeadlineList);
+        return result;
     }
 
     /**

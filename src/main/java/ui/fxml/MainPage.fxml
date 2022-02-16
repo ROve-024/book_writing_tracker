@@ -18,7 +18,34 @@
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1080.0">
          <children>
-            <AnchorPane prefHeight="720.0" prefWidth="50.0" style="-fx-background-color: #323838;" />
+            <AnchorPane prefHeight="720.0" prefWidth="50.0" style="-fx-background-color: #323838;">
+               <children>
+                  <AnchorPane layoutX="8.0" layoutY="25.0" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #99aaaa; -fx-background-radius: 40px;">
+                     <children>
+                        <Label layoutX="11.0" layoutY="7.0" style="-fx-font-size: 16px; -fx-text-fill: #677373; -fx-font-weight: bold;" text="C" />
+                     </children>
+                  </AnchorPane>
+                  <JFXButton layoutY="656.0" maxHeight="23.0" minHeight="50.0" onAction="#logoutButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #323838; -fx-text-fill: #afb8be; -fx-font-size: 21;" styleClass="btn-icon" text="">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="recycleBinButton" layoutY="606.0" maxHeight="23.0" minHeight="50.0" onAction="#recycleBinButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #323838; -fx-text-fill: #afb8be; -fx-font-size: 21;" styleClass="btn-icon" text="">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="myTaskButton" layoutY="127.0" maxHeight="23.0" minHeight="50.0" onAction="#myTaskButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #323838; -fx-text-fill: #afb8be; -fx-font-size: 21;" styleClass="btn-icon" text="">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="homepageButton" layoutY="77.0" maxHeight="23.0" minHeight="50.0" onAction="#homepageButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #323838; -fx-text-fill: #afb8be; -fx-font-size: 21;" styleClass="btn-icon" text="󰃵">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
+               </children></AnchorPane>
             <AnchorPane layoutX="334.0" prefHeight="720.0" prefWidth="1.0" styleClass="decoration-line" />
             <AnchorPane layoutX="740.0" prefHeight="720.0" prefWidth="1.0" styleClass="decoration-line" />
             <AnchorPane layoutX="50.0" prefHeight="720.0" prefWidth="284.0">
@@ -71,13 +98,12 @@
                </children></AnchorPane>
             <AnchorPane fx:id="taskDetailArea" layoutX="741.0" prefHeight="720.0" prefWidth="339.0">
                <children>
-                  <DatePicker fx:id="taskDeadline" layoutX="231.0" layoutY="33.0" prefHeight="23.0" prefWidth="94.0" />
-                  <JFXTextField fx:id="taskTitle" layoutX="14.0" layoutY="28.0" prefHeight="30.0" prefWidth="213.0" promptText="Task Title" style="-fx-font-weight: bold;" styleClass="text-field-without-line-title" />
-                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="64.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" styleClass="text-field-without-line-title" />
-                  <AnchorPane layoutX="23.0" layoutY="61.0" prefHeight="1.0" prefWidth="293.0" styleClass="decoration-line" />
-                  <AnchorPane layoutY="216.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
-                  <Label fx:id="wrongTaskTitleTip" layoutX="21.0" layoutY="219.0" styleClass="wrong-tip" text="The task name cannot be empty." />
-                  <AnchorPane layoutY="396.0" prefHeight="61.0" prefWidth="339.0">
+                  <DatePicker fx:id="taskDeadline" layoutX="228.0" layoutY="75.0" prefHeight="23.0" prefWidth="94.0" />
+                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="109.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" styleClass="text-field-without-line-title" />
+                  <AnchorPane layoutX="23.0" layoutY="106.0" prefHeight="1.0" prefWidth="293.0" styleClass="decoration-line" />
+                  <AnchorPane layoutY="261.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
+                  <Label fx:id="wrongTaskTitleTip" layoutX="21.0" layoutY="264.0" styleClass="wrong-tip" text="The task name cannot be empty." />
+                  <AnchorPane layoutY="441.0" prefHeight="61.0" prefWidth="339.0">
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="339.0">
                            <children>
@@ -91,7 +117,7 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutY="270.0" prefHeight="61.0" prefWidth="339.0">
+                  <AnchorPane layoutY="315.0" prefHeight="61.0" prefWidth="339.0">
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="339.0">
                            <children>
@@ -107,9 +133,13 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <Label layoutX="22.0" layoutY="242.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Cooperator" />
-                  <Label layoutX="21.0" layoutY="364.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Task Progress" />
-                  <AnchorPane layoutY="344.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
+                  <Label layoutX="22.0" layoutY="287.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Cooperator" />
+                  <Label layoutX="21.0" layoutY="409.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Task Progress" />
+                  <AnchorPane layoutY="389.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
+                  <JFXTextField fx:id="taskTitle" layoutX="14.0" layoutY="30.0" prefHeight="30.0" prefWidth="315.0" promptText="Task Title" style="-fx-font-weight: bold;" styleClass="text-field-without-line-title" />
+                  <AnchorPane layoutY="65.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
+                  <Label layoutX="20.0" layoutY="78.0" style="-fx-font-size: 14px; -fx-text-fill: #999999;" text="Creater:" />
+                  <Label fx:id="taskCreaterUsername" layoutX="75.0" layoutY="78.0" prefHeight="16.0" prefWidth="148.0" style="-fx-font-size: 14px; -fx-text-fill: #777777;" text="username" />
                </children></AnchorPane>
          </children>
       </AnchorPane>

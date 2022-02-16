@@ -1,6 +1,9 @@
 package utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
@@ -66,6 +69,25 @@ public class WindowsUtils {
         };
         datepicker.setConverter(converter);
         datepicker.setPromptText(pattern.toLowerCase());
-
     }
+
+    /**
+     * 初始化导航栏
+     *
+     * @param homepageButton 主页按钮
+     * @param myTaskButton 我的任务中心
+     * @param recycleBinButton 回收站
+     */
+    public static void toolBarInitial(JFXButton homepageButton, JFXButton myTaskButton, JFXButton recycleBinButton){
+        JSONObject buffer = JsonUtils.getBuffer();
+        String page = buffer.get("page").toString();
+        if (page.equals("homePage")){
+            homepageButton.setStyle("-fx-text-fill: #eeeeee; -fx-font-size: 21px; -fx-background-color:  #323838");
+        } else if (page.equals("myTask")){
+            myTaskButton.setStyle("-fx-text-fill: #eeeeee; -fx-font-size: 21px; -fx-background-color:  #323838");
+        } else {
+            recycleBinButton.setStyle("-fx-text-fill: #eeeeee; -fx-font-size: 21px; -fx-background-color:  #323838");
+        }
+    }
+
 }

@@ -24,4 +24,12 @@
         <IdUser>2</IdUser>
         <IdProject>6</IdProject>
     </ROW>
+    <ROW>
+        <IdUser>2</IdUser>
+        <IdProject>7</IdProject>
+    </ROW>
+    <ROW>
+        <IdUser>2</IdUser>
+        <IdProject>10</IdProject>
+    </ROW>
 </DATA>
