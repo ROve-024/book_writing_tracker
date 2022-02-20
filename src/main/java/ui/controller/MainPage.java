@@ -36,7 +36,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MainPage {
-    private final Popup popup = new Popup();
+    private final Popup projectEditorPopUp = new Popup();
+    private final Popup confirmDeletePopup = new Popup();
     @FXML
     private JFXButton homepageButton;
     @FXML
@@ -78,6 +79,8 @@ public class MainPage {
     @FXML
     private JFXButton editProjectButton;
     @FXML
+    private JFXButton deleteTaskButton;
+    @FXML
     private JFXTextField newTaskInput;
     @FXML
     private JFXTextField taskTitle;
@@ -96,40 +99,38 @@ public class MainPage {
      */
     @FXML
     private void initialize() {
+        JSONObject initialBuffer = JsonUtils.getBuffer();
+        initialBuffer.put("projectEditorStatus", "initial");
+        JsonUtils.setBuffer(initialBuffer);
         sortProjectByCreateTimeAction();
         initialPopupProjectEditor();
-        projectTitle.setDisable(true);
-        editProjectButton.setDisable(true);
-        newTaskInput.setDisable(true);
-        taskListUnselectedTip.setVisible(true);
-        projectNoTaskTip.setVisible(false);
-        wrongTaskTitleTip.setVisible(false);
+        clearTaskListArea();
         clearTaskDetailArea();
         newProjectButton.setOnMouseClicked(event -> {
-            if (!popup.isShowing()) {
+            if (!projectEditorPopUp.isShowing()) {
                 JSONObject projectEditorBuffer = JsonUtils.getBuffer();
-                String option = (String) projectEditorBuffer.get("option");
-                if (option.equals("edit")) {
-                    projectEditorBuffer.put("option", "create");
+                String projectEditorOption = (String) projectEditorBuffer.get("projectEditorOption");
+                if (projectEditorOption.equals("edit")) {
+                    projectEditorBuffer.put("projectEditorOption", "create");
                     JsonUtils.setBuffer(projectEditorBuffer);
                     initialPopupProjectEditor();
                 }
-                popup.show(newProjectButton.getScene().getWindow());
+                projectEditorPopUp.show(newProjectButton.getScene().getWindow());
             }
         });
         editProjectButton.setOnMouseClicked(event -> {
-            if (!popup.isShowing()) {
+            if (!projectEditorPopUp.isShowing()) {
                 JSONObject projectEditorBuffer = JsonUtils.getBuffer();
-                String option = (String) projectEditorBuffer.get("option");
-                projectEditorBuffer.put("option", "edit");
+                String projectEditorOption = (String) projectEditorBuffer.get("projectEditorOption");
+                projectEditorBuffer.put("projectEditorOption", "edit");
                 JsonUtils.setBuffer(projectEditorBuffer);
                 initialPopupProjectEditor();
-                popup.show(newProjectButton.getScene().getWindow());
+                projectEditorPopUp.show(newProjectButton.getScene().getWindow());
             }
         });
         newTaskInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if (!newTaskInput.getText().isEmpty()){
+                if (!newTaskInput.getText().isEmpty()) {
                     JSONObject buffer = JsonUtils.getBuffer();
                     String idProject = (String) buffer.get("idProject");
                     Task task = new Task();
@@ -146,11 +147,12 @@ public class MainPage {
                     } else if (buffer.get("sortMethod").toString().equals("schedule")) {
                         sortProjectByScheduleAction();
                     }
+                    newTaskInput.setText("");
                 }
             }
         });
-        taskTitle.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
+        taskTitle.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
                 if (taskTitle.getText().isEmpty()) {
                     wrongTaskTitleTip.setVisible(true);
                 } else {
@@ -165,8 +167,8 @@ public class MainPage {
 
             }
         });
-        taskDeadline.focusedProperty().addListener((observableValue, aBoolean, t1) ->{
-            if (!t1 && !(taskDeadline.getValue() == null)){
+        taskDeadline.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (!t1 && !(taskDeadline.getValue() == null)) {
                 JSONObject buffer = JsonUtils.getBuffer();
                 Task task = TaskUtils.getTaskByIdTask(buffer.get("idTask").toString());
                 task.setDeadlineTime(OtherUtils.conventLocalDateToLong(taskDeadline.getValue()));
@@ -175,8 +177,8 @@ public class MainPage {
                 updateTaskDetailArea();
             }
         });
-        taskDescription.focusedProperty().addListener((observableValue, aBoolean, t1) ->{
-            if (!t1 && !taskDescription.getText().isEmpty()){
+        taskDescription.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (!t1 && !taskDescription.getText().isEmpty()) {
                 JSONObject buffer = JsonUtils.getBuffer();
                 Task task = TaskUtils.getTaskByIdTask(buffer.get("idTask").toString());
                 task.setDescription(taskDescription.getText());
@@ -260,12 +262,12 @@ public class MainPage {
     }
 
     @FXML
-    protected void homepageButtonAction(){
+    protected void homepageButtonAction() {
         initialize();
     }
 
     @FXML
-    protected void myTaskButtonAction(){
+    protected void myTaskButtonAction() {
         JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("page", "myTask");
         JsonUtils.setBuffer(buffer);
@@ -282,7 +284,7 @@ public class MainPage {
     }
 
     @FXML
-    protected void recycleBinButtonAction(){
+    protected void recycleBinButtonAction() {
         JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("page", "recycleBin");
         JsonUtils.setBuffer(buffer);
@@ -299,9 +301,9 @@ public class MainPage {
     }
 
     @FXML
-    protected void logoutButtonAction(){
+    protected void logoutButtonAction() {
         JSONObject buffer = JsonUtils.getBuffer();
-        buffer.put("status", OtherUtils.encryptByMD5("false"));
+        buffer.put("userStatus", OtherUtils.encryptByMD5("false"));
         Parent root = null;
         try {
             root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
@@ -311,6 +313,15 @@ public class MainPage {
         assert root != null;
         WindowsUtils.initial(root, (Stage) projectTitle.getScene().getWindow());
         projectTitle.getScene().setRoot(root);
+    }
+
+    @FXML
+    protected void deleteTaskButtonAction(){
+        JSONObject buffer = JsonUtils.getBuffer();
+        TaskUtils.deleteTaskByIdTask(buffer.get("idTask").toString());
+        updateProjectListArea();
+        updateTaskListArea();
+        clearTaskDetailArea();
     }
 
     /**
@@ -427,6 +438,20 @@ public class MainPage {
     }
 
     /**
+     * 更新project栏的内容
+     */
+    private void updateProjectListArea() {
+        JSONObject buffer = JsonUtils.getBuffer();
+        if (buffer.get("sortMethod").toString().equals("createTime")) {
+            sortProjectByCreateTimeAction();
+        } else if (buffer.get("sortMethod").toString().equals("deadline")) {
+            sortProjectByDeadLineAction();
+        } else if (buffer.get("sortMethod").toString().equals("schedule")) {
+            sortProjectByScheduleAction();
+        }
+    }
+
+    /**
      * 更新任务列表栏的内容
      */
     private void updateTaskListArea() {
@@ -502,7 +527,7 @@ public class MainPage {
                     taskCheckBox.setStyle("-fx-font-size: 14px; -jfx-checked-color: #99aaaa; -jfx-unchecked-color: " +
                             "#bbbbbb; -fx-text-fill: #232323");
 
-                    Label taskName = new Label(task.getTaskTitle()){
+                    Label taskName = new Label(task.getTaskTitle()) {
                         {
                             setLayoutX(36);
                             setLayoutY(12);
@@ -519,29 +544,26 @@ public class MainPage {
                     taskItem.getChildren().add(taskCheckBox);
                     taskItem.getChildren().add(taskName);
 
-                    taskCheckBox.setOnMouseClicked(mouseEvent ->{
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                    taskCheckBox.setOnMouseClicked(mouseEvent -> {
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         task.setStatus("finished");
                         TaskUtils.updateTaskList(task);
+                        updateProjectListArea();
                         updateTaskListArea();
-                        if (buffer.get("sortMethod").toString().equals("createTime")) {
-                            sortProjectByCreateTimeAction();
-                        } else if (buffer.get("sortMethod").toString().equals("deadline")) {
-                            sortProjectByDeadLineAction();
-                        } else if (buffer.get("sortMethod").toString().equals("schedule")) {
-                            sortProjectByScheduleAction();
-                        }
                         updateTaskDetailArea();
                     });
                     taskName.setOnMouseClicked(mouseEvent -> {
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         updateTaskDetailArea();
                     });
                     taskItem.setOnMouseClicked(mouseEvent -> {
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         updateTaskDetailArea();
                     });
 
@@ -625,7 +647,7 @@ public class MainPage {
                             "#bbbbbb; -fx-text-fill: #232323");
                     taskCheckBox.setText("");
 
-                    Label taskName = new Label(task.getTaskTitle()){
+                    Label taskName = new Label(task.getTaskTitle()) {
                         {
                             setLayoutX(36);
                             setLayoutY(12);
@@ -645,29 +667,26 @@ public class MainPage {
                     taskItem.getChildren().add(taskCheckBox);
                     taskItem.getChildren().add(taskName);
 
-                    taskCheckBox.setOnMouseClicked(mouseEvent ->{
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                    taskCheckBox.setOnMouseClicked(mouseEvent -> {
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         task.setStatus("unfinished");
                         TaskUtils.updateTaskList(task);
+                        updateProjectListArea();
                         updateTaskListArea();
-                        if (buffer.get("sortMethod").toString().equals("createTime")) {
-                            sortProjectByCreateTimeAction();
-                        } else if (buffer.get("sortMethod").toString().equals("deadline")) {
-                            sortProjectByDeadLineAction();
-                        } else if (buffer.get("sortMethod").toString().equals("schedule")) {
-                            sortProjectByScheduleAction();
-                        }
                         updateTaskDetailArea();
                     });
                     taskName.setOnMouseClicked(mouseEvent -> {
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         updateTaskDetailArea();
                     });
                     taskItem.setOnMouseClicked(mouseEvent -> {
-                        buffer.put("idTask", task.getIdTask());
-                        JsonUtils.setBuffer(buffer);
+                        JSONObject newBuffer = JsonUtils.getBuffer();
+                        newBuffer.put("idTask", task.getIdTask());
+                        JsonUtils.setBuffer(newBuffer);
                         updateTaskDetailArea();
                     });
 
@@ -727,19 +746,19 @@ public class MainPage {
         taskTitle.setText(task.getTaskTitle());
         if (!task.getDescription().equals("NULL")) {
             taskDescription.setText(task.getDescription());
-        }else {
+        } else {
             taskDescription.setText("");
         }
         if (task.getDeadlineTime() != -1) {
             taskDeadline.setValue(OtherUtils.conventLongToLocalDate(task.getDeadlineTime()));
         }
 
-        if(!task.getIdUser().equals(buffer.get("idUser"))){
-            for( Node node : taskDetailArea.getChildren()){
+        if (!task.getIdUser().equals(buffer.get("idUser"))) {
+            for (Node node : taskDetailArea.getChildren()) {
                 node.setDisable(true);
             }
-        }else {
-            for( Node node : taskDetailArea.getChildren()){
+        } else {
+            for (Node node : taskDetailArea.getChildren()) {
                 node.setDisable(false);
             }
         }
@@ -751,10 +770,10 @@ public class MainPage {
      * 新建和编辑项目窗口
      */
     private void initialPopupProjectEditor() {
-        popup.setAutoHide(true);
+        projectEditorPopUp.setAutoHide(true);
 
-        JSONObject projectEditorBuffer = JsonUtils.getBuffer();
-        String option = (String) projectEditorBuffer.get("option");
+        JSONObject buffer = JsonUtils.getBuffer();
+        String projectEditorOption = (String) buffer.get("projectEditorOption");
 
         AnchorPane projectEditorArea = new AnchorPane() {
             {
@@ -776,7 +795,7 @@ public class MainPage {
             }
         };
         projectTitle.getStyleClass().add("text-field-without-line");
-        projectTitle.setPromptText("Project title");
+        projectTitle.setPromptText("Projct name");
         projectEditorArea.getChildren().add(projectTitle);
 
         AnchorPane decorationLine1 = new AnchorPane() {
@@ -824,7 +843,7 @@ public class MainPage {
         WindowsUtils.datepickerInitial(datePicker);
         projectEditorArea.getChildren().add(datePicker);
 
-        Label wrongProjectTitleTip = new Label("Project title cannot be empty.") {
+        Label wrongProjectTitleTip = new Label("Projct name cannot be empty.") {
             {
                 setLayoutX(15);
                 setLayoutY(265);
@@ -856,8 +875,20 @@ public class MainPage {
                 "-fx-font-weight: bold; -fx-background-radius: 5px");
         projectEditorArea.getChildren().add(saveButton);
 
-        projectTitle.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
+        JFXButton deleteButton = new JFXButton("DELETE") {
+            {
+                setLayoutX(81);
+                setLayoutY(290);
+                setPrefWidth(70);
+                setPrefHeight(30);
+            }
+        };
+        deleteButton.setStyle("-fx-text-fill: #f5f5f5; -fx-background-color: #C8DEDE; -fx-font-size: 12px; " +
+                "-fx-font-weight: bold; -fx-background-radius: 5px");
+        projectEditorArea.getChildren().add(deleteButton);
+
+        projectTitle.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
                 if (projectTitle.getText().isEmpty()) {
                     wrongProjectTitleTip.setVisible(true);
                     wrongProjectDeadlineTip.setVisible(false);
@@ -880,8 +911,8 @@ public class MainPage {
             }
         });
 
-        if (option.equals("edit")) {
-            String projectId = (String) projectEditorBuffer.get("idProject");
+        if (projectEditorOption.equals("edit") && !buffer.get("projectEditorStatus").toString().equals("initial")) {
+            String projectId = (String) buffer.get("idProject");
             Project project = ProjectUtils.getProjectByIdProject(projectId);
             projectTitle.setText(project.getProjectName());
             projectDescription.setText(project.getDescription());
@@ -902,18 +933,21 @@ public class MainPage {
                 projectDescription.setDisable(true);
                 datePicker.setDisable(true);
                 saveButton.setDisable(true);
+                deleteButton.setVisible(false);
             } else {
                 projectTitle.setDisable(false);
                 projectDescription.setDisable(false);
                 datePicker.setDisable(false);
                 saveButton.setDisable(false);
+                deleteButton.setVisible(true);
             }
 
+        } else if(!projectEditorOption.equals("edit") ){
+            deleteButton.setVisible(false);
         }
 
         saveButton.setOnAction(event -> {
             if (datePicker.getValue() == null) {
-                System.out.println(datePicker.getValue());
                 wrongProjectDeadlineTip.setVisible(true);
                 wrongProjectTitleTip.setVisible(false);
             } else if (projectTitle.getText().isEmpty()) {
@@ -927,9 +961,9 @@ public class MainPage {
                 project.setProjectName(projectTitle.getText());
                 project.setDescription(projectDescription.getText());
                 project.setDeadlineTime(OtherUtils.conventLocalDateToLong(datePicker.getValue()));
-                if (option.equals("create")) {
+                if (projectEditorOption.equals("create")) {
                     ProjectUtils.createProject(project);
-                } else if (option.equals("edit")) {
+                } else if (projectEditorOption.equals("edit")) {
                     ProjectUtils.updateProjectList(project);
                 }
 
@@ -941,16 +975,104 @@ public class MainPage {
                 projectTitle.setText("");
                 projectDescription.setText("");
                 datePicker.setValue(null);
-                popup.hide();
+                projectEditorPopUp.hide();
 
-                sortProjectByCreateTimeAction();
+                updateProjectListArea();
             }
-
-
         });
 
-        popup.getContent().add(projectEditorArea);
+        deleteButton.setOnAction(event -> {
+            if (!confirmDeletePopup.isShowing()) {
+                initialConfirmDeletePopUp();
+                confirmDeletePopup.show(homepageButton.getScene().getWindow());
+                projectEditorPopUp.hide();
+            }
+        });
 
+        projectEditorPopUp.getContent().add(projectEditorArea);
+
+    }
+
+    /**
+     * 确定删除项目界面
+     */
+    private void initialConfirmDeletePopUp() {
+        confirmDeletePopup.setAutoHide(true);
+        AnchorPane deleteProjectArea = new AnchorPane() {
+            {
+                setPrefWidth(420);
+                setPrefHeight(120);
+            }
+        };
+        deleteProjectArea.getStylesheets().add("css/styles.css");
+        deleteProjectArea.setStyle("-fx-background-color: #f5f5f5");
+        deleteProjectArea.setEffect(new DropShadow(10, 0, 2, new Color(0.86, 0.86, 0.86, 1)));
+
+        Project project = ProjectUtils.getProjectByIdProject((String) JsonUtils.getBuffer().get("idProject"));
+        Label deleteProjectTitle = new Label("Please type project name to confirm") {
+            {
+                setLayoutX(13);
+                setLayoutY(10);
+                setPrefWidth(394);
+                setPrefHeight(25);
+            }
+        };
+        deleteProjectTitle.setStyle("-fx-font-size: 14px; -fx-text-fill: #777777");
+        deleteProjectArea.getChildren().add(deleteProjectTitle);
+
+        JFXTextField confirmDeleteProjectInput = new JFXTextField() {
+            {
+                setLayoutX(13);
+                setLayoutY(40);
+                setPrefWidth(394);
+                setPrefHeight(30);
+            }
+        };
+        confirmDeleteProjectInput.getStyleClass().add("text-field-without-line-background");
+        confirmDeleteProjectInput.setPromptText(project.getProjectName());
+        deleteProjectArea.getChildren().add(confirmDeleteProjectInput);
+
+        JFXButton confirmDeleteProjectButton = new JFXButton("I understand the consequences, delete this " +
+                "project") {
+            {
+                setLayoutX(13);
+                setLayoutY(80);
+                setPrefWidth(394);
+                setPrefHeight(30);
+            }
+        };
+        confirmDeleteProjectButton.setStyle("-fx-text-fill: #f5f5f5; -fx-background-color: #99aaaa; -fx-font-size: 12px; " +
+                "-fx-font-weight: bold; -fx-background-radius: 5px");
+        deleteProjectArea.getChildren().add(confirmDeleteProjectButton);
+        confirmDeleteProjectButton.setDisable(true);
+
+        confirmDeleteProjectInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
+                if(confirmDeleteProjectInput.getText().equals(project.getProjectName())){
+                    confirmDeleteProjectButton.setDisable(false);
+                }
+            }
+        });
+
+        confirmDeleteProjectButton.setOnAction(event -> {
+            ProjectUtils.deleteProjectByIdProject(project.getIdProject());
+            updateProjectListArea();
+            clearTaskListArea();
+            clearTaskDetailArea();
+        });
+
+        confirmDeletePopup.getContent().add(deleteProjectArea);
+    }
+
+    private void clearTaskListArea(){
+        projectTitle.setDisable(true);
+        editProjectButton.setDisable(true);
+        newTaskInput.setDisable(true);
+        deleteTaskButton.setDisable(true);
+        taskListUnselectedTip.setVisible(true);
+        projectNoTaskTip.setVisible(false);
+        wrongTaskTitleTip.setVisible(false);
+        taskListScrollArea.setVisible(false);
     }
 
     private void clearTaskDetailArea() {

@@ -64,8 +64,8 @@ public class ForgotPassword {
         securityQuestion.setText("Please enter correct username");
         tooManyWrongInputTips.setVisible(false);
 
-        usernameInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
+        usernameInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
                 if (UserUtils.ifSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(false);
                     user = UserUtils.getUserByUsername(usernameInput.getText());

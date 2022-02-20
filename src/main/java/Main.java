@@ -28,7 +28,7 @@ public class Main extends Application {
         JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("page", "homePage");
         JsonUtils.setBuffer(buffer);
-        if (buffer.get("status").toString().equals(OtherUtils.encryptByMD5("true"))) {
+        if (buffer.get("userStatus").toString().equals(OtherUtils.encryptByMD5("true"))) {
             try {
                 root = FXMLLoader.load(new File("src/main/java/ui/fxml/MainPage.fxml").toURI().toURL());
             } catch (IOException e) {

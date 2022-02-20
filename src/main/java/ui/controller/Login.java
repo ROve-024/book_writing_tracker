@@ -92,9 +92,9 @@ public class Login {
             buffer.put("idUser", UserUtils.getIDByUsername(username));
             buffer.put("page", "homePage");
             if (rememberMeCheckbox.isSelected()) {
-                buffer.put("status", OtherUtils.encryptByMD5("true"));
+                buffer.put("userStatus", OtherUtils.encryptByMD5("true"));
             } else {
-                buffer.put("status", OtherUtils.encryptByMD5("false"));
+                buffer.put("userStatus", OtherUtils.encryptByMD5("false"));
             }
             JsonUtils.setBuffer(buffer);
             wrongInputTips.setVisible(false);

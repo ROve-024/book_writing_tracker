@@ -1,12 +1,11 @@
 package utils;
 
-import com.alibaba.fastjson.JSONObject;
 import io.task.Task;
 import io.task.TaskReadWrite;
 import io.user.User;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -178,7 +177,6 @@ public class TaskUtils {
         return result;
     }
 
-
     /**
      * 使用idTask删除任务
      *
@@ -186,13 +184,18 @@ public class TaskUtils {
      */
     public static void deleteTaskByIdTask(String idTask) {
         List<Task> taskList = getTaskList();
-        for (Task value : taskList) {
-            if (value.getIdTask().equals(idTask)) {
-                UserTaskUtils.deleteUserTaskByIdTask(value.getIdTask());
-                taskList.remove(value);
-                break;
+        Iterator<Task> iterator = taskList.iterator();
+        while(iterator.hasNext()){
+            Task task = iterator.next();
+            if(task.getIdParentTask().equals(idTask)){
+                iterator.remove();
             }
+            else if(task.getIdTask().equals(idTask)){
+                iterator.remove();
+            }
+
         }
+
         writeTaskXML(taskList);
     }
 
@@ -203,11 +206,13 @@ public class TaskUtils {
      */
     public static void deleteTaskByIdProject(String idProject) {
         List<Task> taskList = getTaskList();
-        for (Task value : taskList) {
-            if (value.getIdProject().equals(idProject)) {
-                UserTaskUtils.deleteUserTaskByIdTask(value.getIdTask());
-                taskList.remove(value);
+        Iterator<Task> iterator = taskList.iterator();
+        while(iterator.hasNext()){
+            Task task = iterator.next();
+            if(task.getIdProject().equals(idProject)){
+                iterator.remove();
             }
+
         }
         writeTaskXML(taskList);
     }

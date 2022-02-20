@@ -54,8 +54,8 @@ public class SignUp {
         securityQuestionBox.getItems().removeAll(securityQuestionBox.getItems());
         securityQuestionBox.getItems().addAll("What city were you born in?", "What is your oldest sibling’s middle name?", "What was the first concert you attended?", "What was the make and model of your first car?", "In what city or town did your parents meet?");
         securityQuestionBox.getSelectionModel().select("What city were you born in?");
-        usernameInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1) {
+        usernameInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
                 if (UserUtils.ifSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(true);
                     usernameEmptyInputTips.setVisible(false);

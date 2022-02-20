@@ -2,9 +2,12 @@ package utils;
 
 import io.project.Project;
 import io.project.ProjectReadWrite;
+import io.task.Task;
+import javafx.stage.Popup;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -98,12 +101,15 @@ public class ProjectUtils {
      */
     public static void deleteProjectByIdProject(String idProject) {
         List<Project> projectList = getProjectList();
-        for (Project value : projectList) {
-            if (value.getIdProject().equals(idProject)) {
-                projectList.remove(value);
+        Iterator<Project> iterator = projectList.iterator();
+        while(iterator.hasNext()){
+            Project project = iterator.next();
+            if(project.getIdProject().equals(idProject)){
+                iterator.remove();
                 break;
             }
         }
+
         TaskUtils.deleteTaskByIdProject(idProject);
         UserProjectUtils.deleteUserProjectByIdProject(idProject);
         writeProjectXML(projectList);

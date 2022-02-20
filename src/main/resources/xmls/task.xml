@@ -89,17 +89,6 @@
         <Description>NULL</Description>
     </ROW>
     <ROW>
-        <IdTask>2</IdTask>
-        <IdParentTask>NULL</IdParentTask>
-        <IdProject>1</IdProject>
-        <IdUser>1</IdUser>
-        <Status>unfinished</Status>
-        <TaskTitle>Draft of chapter I, version 2</TaskTitle>
-        <CreateTime>5</CreateTime>
-        <DeadlineTime>1644940800000</DeadlineTime>
-        <Description>NULL</Description>
-    </ROW>
-    <ROW>
         <IdTask>4</IdTask>
         <IdParentTask>NULL</IdParentTask>
         <IdProject>1</IdProject>
@@ -141,17 +130,6 @@
         <Status>finished</Status>
         <TaskTitle>Chapter 1, version 2</TaskTitle>
         <CreateTime>1645001531509</CreateTime>
-        <DeadlineTime>-1</DeadlineTime>
-        <Description>NULL</Description>
-    </ROW>
-    <ROW>
-        <IdTask>21</IdTask>
-        <IdParentTask>NULL</IdParentTask>
-        <IdProject>10</IdProject>
-        <IdUser>2</IdUser>
-        <Status>finished</Status>
-        <TaskTitle>early report, version 1</TaskTitle>
-        <CreateTime>1645001979957</CreateTime>
         <DeadlineTime>-1</DeadlineTime>
         <Description>NULL</Description>
     </ROW>
@@ -230,6 +208,28 @@
         <TaskTitle>Chapter 6, version 5</TaskTitle>
         <CreateTime>1645000218961</CreateTime>
         <DeadlineTime>1645545600000</DeadlineTime>
+        <Description>NULL</Description>
+    </ROW>
+    <ROW>
+        <IdTask>21</IdTask>
+        <IdParentTask>NULL</IdParentTask>
+        <IdProject>10</IdProject>
+        <IdUser>2</IdUser>
+        <Status>finished</Status>
+        <TaskTitle>early report, version 1</TaskTitle>
+        <CreateTime>1645001979957</CreateTime>
+        <DeadlineTime>-1</DeadlineTime>
+        <Description>NULL</Description>
+    </ROW>
+    <ROW>
+        <IdTask>2</IdTask>
+        <IdParentTask>NULL</IdParentTask>
+        <IdProject>1</IdProject>
+        <IdUser>1</IdUser>
+        <Status>unfinished</Status>
+        <TaskTitle>Draft of chapter I, version 2</TaskTitle>
+        <CreateTime>5</CreateTime>
+        <DeadlineTime>1644940800000</DeadlineTime>
         <Description>NULL</Description>
     </ROW>
 </DATA>
