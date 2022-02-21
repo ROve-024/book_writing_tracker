@@ -44,31 +44,31 @@ public class WindowsUtils {
     /**
      * 初始化日期选择器
      *
-     * @param datepicker 需要初始化的对象
+     * @param datePicker 需要初始化的对象
      */
-    public static void datepickerInitial(DatePicker datepicker){
-        String pattern = "yyyy-MM-dd";
-        StringConverter<LocalDate> converter = new StringConverter<>() {
-            final DateTimeFormatter dateFormatter =DateTimeFormatter.ofPattern(pattern);
+    public static void datepickerInitial(DatePicker datePicker){
+        datePicker.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
             @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
                     return "";
-                }
+                return dateTimeFormatter.format(localDate);
             }
+
             @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
                     return null;
                 }
+                return LocalDate.parse(dateString,dateTimeFormatter);
             }
-        };
-        datepicker.setConverter(converter);
-        datepicker.setPromptText(pattern.toLowerCase());
+        });
     }
 
     /**

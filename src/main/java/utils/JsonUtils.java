@@ -43,7 +43,7 @@ public class JsonUtils {
                 }
             }
         }
-        return JSON.parseObject(result.toString().replace(" ", "").strip());
+        return JSON.parseObject(result.toString().replace(" ", ""));
     }
 
     /**

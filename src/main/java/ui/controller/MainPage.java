@@ -725,10 +725,7 @@ public class MainPage {
             taskListScrollArea.setFitToWidth(true);
             taskListScrollArea.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             taskListScrollArea.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
         }
-
-
     }
 
     /**
@@ -757,13 +754,13 @@ public class MainPage {
             for (Node node : taskDetailArea.getChildren()) {
                 node.setDisable(true);
             }
+            deleteTaskButton.setVisible(true);
         } else {
             for (Node node : taskDetailArea.getChildren()) {
                 node.setDisable(false);
             }
+            deleteTaskButton.setVisible(false);
         }
-
-
     }
 
     /**
