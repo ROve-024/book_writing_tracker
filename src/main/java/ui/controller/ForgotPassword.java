@@ -66,7 +66,7 @@ public class ForgotPassword {
 
         usernameInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!oldValue.equals(newValue)) {
-                if (UserUtils.ifSameUsername(usernameInput.getText())) {
+                if (UserUtils.isSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(false);
                     user = UserUtils.getUserByUsername(usernameInput.getText());
                     securityQuestion.setText(user.getQuestion());
@@ -77,7 +77,7 @@ public class ForgotPassword {
             }
         });
         passwordInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1 && UserUtils.ifPasswordValid(passwordInput.getText())) {
+            if (!t1 && UserUtils.isPasswordValid(passwordInput.getText())) {
                 formatWrongInputTips.setVisible(true);
             }
         });
@@ -113,14 +113,14 @@ public class ForgotPassword {
     @FXML
     protected void resetButtonAction() {
         boolean flag = true;
-        if (!UserUtils.ifSameUsername(usernameInput.getText()) && !usernameInput.getText().isEmpty()) {
+        if (!UserUtils.isSameUsername(usernameInput.getText()) && !usernameInput.getText().isEmpty()) {
             flag = false;
             usernameWrongInputTips.setVisible(true);
             user = UserUtils.getUserByUsername(usernameInput.getText());
         } else {
             usernameWrongInputTips.setVisible(false);
         }
-        if (UserUtils.ifPasswordValid(passwordInput.getText())) {
+        if (UserUtils.isPasswordValid(passwordInput.getText())) {
             flag = false;
             formatWrongInputTips.setVisible(true);
         } else {

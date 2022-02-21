@@ -56,7 +56,7 @@ public class SignUp {
         securityQuestionBox.getSelectionModel().select("What city were you born in?");
         usernameInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!oldValue.equals(newValue)) {
-                if (UserUtils.ifSameUsername(usernameInput.getText())) {
+                if (UserUtils.isSameUsername(usernameInput.getText())) {
                     usernameWrongInputTips.setVisible(true);
                     usernameEmptyInputTips.setVisible(false);
                 } else if (usernameInput.getText().isEmpty()) {
@@ -70,7 +70,7 @@ public class SignUp {
             }
         });
         passwordInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            formatWrongInputTips.setVisible(!t1 && UserUtils.ifPasswordValid(passwordInput.getText()));
+            formatWrongInputTips.setVisible(!t1 && UserUtils.isPasswordValid(passwordInput.getText()));
         });
         repeatPasswordInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
             repeatWrongInputTips.setVisible(!passwordInput.getText().equals(repeatPasswordInput.getText()));
@@ -83,7 +83,7 @@ public class SignUp {
     @FXML
     protected void loginButtonAction() {
         boolean flag = true;
-        if (UserUtils.ifSameUsername(usernameInput.getText())) {
+        if (UserUtils.isSameUsername(usernameInput.getText())) {
             flag = false;
             usernameWrongInputTips.setVisible(true);
         } else {
@@ -95,7 +95,7 @@ public class SignUp {
         } else {
             usernameEmptyInputTips.setVisible(false);
         }
-        if (UserUtils.ifPasswordValid(passwordInput.getText())) {
+        if (UserUtils.isPasswordValid(passwordInput.getText())) {
             flag = false;
             formatWrongInputTips.setVisible(true);
         } else {

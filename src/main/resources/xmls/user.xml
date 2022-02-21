@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <DATA>
-    <ROW>
-        <IdUser>1</IdUser>
-        <Username>trevor</Username>
-        <Password>20cc88d2e204ffa768509d33fa882492</Password>
-        <SecurityQuestion>What city were you born in?</SecurityQuestion>
-        <SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
-        <Email>username@example.com</Email>
-        <Telephone>138000000000</Telephone>
-    </ROW>
-    <ROW>
-        <IdUser>2</IdUser>
-        <Username>Cui_Bingzhe</Username>
-        <Password>20cc88d2e204ffa768509d33fa882492</Password>
-        <SecurityQuestion>What city were you born in?</SecurityQuestion>
-        <SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
-        <Email>username@example.com</Email>
-        <Telephone>138000000000</Telephone>
-    </ROW>
+<ROW>
+<IdUser>1</IdUser>
+<Username>trevor</Username>
+<Password>20cc88d2e204ffa768509d33fa882492</Password>
+<SecurityQuestion>What city were you born in?</SecurityQuestion>
+<SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
+<Email>username@example.com</Email>
+<Telephone>138000000000</Telephone>
+</ROW>
+<ROW>
+<IdUser>2</IdUser>
+<Username>CUI, Bingzhe</Username>
+<Password>20cc88d2e204ffa768509d33fa882492</Password>
+<SecurityQuestion>What city were you born in?</SecurityQuestion>
+<SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
+<Email>cui_bingzhe@yeah.net</Email>
+<Telephone>18888888888</Telephone>
+</ROW>
 </DATA>

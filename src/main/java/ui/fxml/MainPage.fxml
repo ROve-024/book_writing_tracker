@@ -14,15 +14,15 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainPage">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MainPage">
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1080.0">
          <children>
             <AnchorPane prefHeight="720.0" prefWidth="50.0" style="-fx-background-color: #323838;">
                <children>
-                  <AnchorPane layoutX="8.0" layoutY="25.0" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #99aaaa; -fx-background-radius: 40px;">
+                  <AnchorPane fx:id="userProfileButton" layoutX="8.0" layoutY="25.0" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: #99aaaa; -fx-background-radius: 40px;">
                      <children>
-                        <Label layoutX="11.0" layoutY="7.0" style="-fx-font-size: 16px; -fx-text-fill: #677373; -fx-font-weight: bold;" text="C" />
+                        <Label fx:id="avatarLetter" layoutX="11.0" layoutY="7.0" style="-fx-font-size: 16px; -fx-text-fill: #677373; -fx-font-weight: bold;" text="C" />
                      </children>
                   </AnchorPane>
                   <JFXButton layoutY="656.0" maxHeight="23.0" minHeight="50.0" onAction="#logoutButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #323838; -fx-text-fill: #afb8be; -fx-font-size: 21;" styleClass="btn-icon" text="">

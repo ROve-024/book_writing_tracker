@@ -77,7 +77,7 @@ public class UserUtils {
      * @param username 用户输入的用户名
      * @return 若存在，则返回true，反之亦然
      */
-    public static boolean ifSameUsername(String username) {
+    public static boolean isSameUsername(String username) {
         List<User> userList = getUserList();
         boolean flag = false;
 
@@ -97,7 +97,7 @@ public class UserUtils {
      * @param password 用户输入的密码
      * @return 若符合要求，则返回false，反之亦然
      */
-    public static boolean ifPasswordValid(String password) {
+    public static boolean isPasswordValid(String password) {
         boolean flag = true;
         boolean numberFlag = false;
         boolean letterFlag = false;
@@ -119,6 +119,22 @@ public class UserUtils {
         }
 
         return !flag;
+    }
+
+    /**
+     * 判断用户输入的邮箱是否符合要求
+     *
+     * @param email 用户输入的邮箱
+     * @return 若符合要求，则返回false，反之亦然
+     */
+    public static boolean isValidEmailAddress(String email) {
+        String ePattern = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"" +
+                "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])" +
+                "*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]" +
+                "|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
 
     /**

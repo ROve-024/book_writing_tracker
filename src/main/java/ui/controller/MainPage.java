@@ -1,6 +1,5 @@
 package ui.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -34,10 +33,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainPage {
     private final Popup projectEditorPopUp = new Popup();
-    private final Popup confirmDeletePopup = new Popup();
+    private final Popup confirmDeletePopUp = new Popup();
+    private final Popup selfProfilePopUp = new Popup();
     @FXML
     private JFXButton homepageButton;
     @FXML
@@ -50,6 +51,8 @@ public class MainPage {
     private AnchorPane taskListUnselectedTip;
     @FXML
     private AnchorPane taskDetailArea;
+    @FXML
+    private AnchorPane userProfileButton;
     @FXML
     private ScrollPane projectScrollArea;
     @FXML
@@ -68,6 +71,8 @@ public class MainPage {
     private Label proofreaderSelectButton;
     @FXML
     private Label taskCreaterUsername;
+    @FXML
+    private Label avatarLetter;
     @FXML
     private JFXButton deadlineButton;
     @FXML
@@ -106,6 +111,7 @@ public class MainPage {
         initialPopupProjectEditor();
         clearTaskListArea();
         clearTaskDetailArea();
+        updateFirstLetter();
         newProjectButton.setOnMouseClicked(event -> {
             if (!projectEditorPopUp.isShowing()) {
                 JSONObject projectEditorBuffer = JsonUtils.getBuffer();
@@ -121,11 +127,16 @@ public class MainPage {
         editProjectButton.setOnMouseClicked(event -> {
             if (!projectEditorPopUp.isShowing()) {
                 JSONObject projectEditorBuffer = JsonUtils.getBuffer();
-                String projectEditorOption = (String) projectEditorBuffer.get("projectEditorOption");
                 projectEditorBuffer.put("projectEditorOption", "edit");
                 JsonUtils.setBuffer(projectEditorBuffer);
                 initialPopupProjectEditor();
                 projectEditorPopUp.show(newProjectButton.getScene().getWindow());
+            }
+        });
+        userProfileButton.setOnMouseClicked(event -> {
+            if (!selfProfilePopUp.isShowing()) {
+                initialSelfProfilePopUp();
+                selfProfilePopUp.show(projectTitle.getScene().getWindow());
             }
         });
         newTaskInput.setOnKeyPressed(event -> {
@@ -316,7 +327,7 @@ public class MainPage {
     }
 
     @FXML
-    protected void deleteTaskButtonAction(){
+    protected void deleteTaskButtonAction() {
         JSONObject buffer = JsonUtils.getBuffer();
         TaskUtils.deleteTaskByIdTask(buffer.get("idTask").toString());
         updateProjectListArea();
@@ -764,6 +775,14 @@ public class MainPage {
     }
 
     /**
+     * 更新用户首字母的内容
+     */
+    private void updateFirstLetter(){
+        JSONObject buffer = JsonUtils.getBuffer();
+        avatarLetter.setText(buffer.get("username").toString().charAt(0)+ "");
+    }
+
+    /**
      * 新建和编辑项目窗口
      */
     private void initialPopupProjectEditor() {
@@ -781,7 +800,7 @@ public class MainPage {
         projectEditorArea.getStylesheets().add("css/styles.css");
         projectEditorArea.getStylesheets().add("css/date_picker.css");
         projectEditorArea.setStyle("-fx-background-color: #f5f5f5");
-        projectEditorArea.setEffect(new DropShadow(10, 0, 2, new Color(0.86, 0.86, 0.86, 1)));
+        projectEditorArea.setEffect(new DropShadow(10, 0, 2, new Color(0.8, 0.8, 0.8, 1)));
 
         JFXTextField projectTitle = new JFXTextField() {
             {
@@ -939,7 +958,7 @@ public class MainPage {
                 deleteButton.setVisible(true);
             }
 
-        } else if(!projectEditorOption.equals("edit") ){
+        } else if (!projectEditorOption.equals("edit")) {
             deleteButton.setVisible(false);
         }
 
@@ -979,9 +998,9 @@ public class MainPage {
         });
 
         deleteButton.setOnAction(event -> {
-            if (!confirmDeletePopup.isShowing()) {
+            if (!confirmDeletePopUp.isShowing()) {
                 initialConfirmDeletePopUp();
-                confirmDeletePopup.show(homepageButton.getScene().getWindow());
+                confirmDeletePopUp.show(homepageButton.getScene().getWindow());
                 projectEditorPopUp.hide();
             }
         });
@@ -994,7 +1013,7 @@ public class MainPage {
      * 确定删除项目界面
      */
     private void initialConfirmDeletePopUp() {
-        confirmDeletePopup.setAutoHide(true);
+        confirmDeletePopUp.setAutoHide(true);
         AnchorPane deleteProjectArea = new AnchorPane() {
             {
                 setPrefWidth(420);
@@ -1003,7 +1022,7 @@ public class MainPage {
         };
         deleteProjectArea.getStylesheets().add("css/styles.css");
         deleteProjectArea.setStyle("-fx-background-color: #f5f5f5");
-        deleteProjectArea.setEffect(new DropShadow(10, 0, 2, new Color(0.86, 0.86, 0.86, 1)));
+        deleteProjectArea.setEffect(new DropShadow(10, 0, 2, new Color(0.8, 0.8, 0.8, 1)));
 
         Project project = ProjectUtils.getProjectByIdProject((String) JsonUtils.getBuffer().get("idProject"));
         Label deleteProjectTitle = new Label("Please type project name to confirm") {
@@ -1045,7 +1064,7 @@ public class MainPage {
 
         confirmDeleteProjectInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!oldValue.equals(newValue)) {
-                if(confirmDeleteProjectInput.getText().equals(project.getProjectName())){
+                if (confirmDeleteProjectInput.getText().equals(project.getProjectName())) {
                     confirmDeleteProjectButton.setDisable(false);
                 }
             }
@@ -1058,11 +1077,201 @@ public class MainPage {
             clearTaskDetailArea();
         });
 
-        confirmDeletePopup.getContent().add(deleteProjectArea);
+        confirmDeletePopUp.getContent().add(deleteProjectArea);
     }
 
-    private void clearTaskListArea(){
+    /**
+     * 初始化用户自己的个人资料页，可编辑
+     */
+    private void initialSelfProfilePopUp() {
+        selfProfilePopUp.setAutoHide(true);
+
+        AtomicBoolean isUsernameInputValid = new AtomicBoolean(true);
+        AtomicBoolean isEmailInputValid = new AtomicBoolean(true);
+        AtomicBoolean isTelephoneInputValid = new AtomicBoolean(true);
+
+        JSONObject buffer = JsonUtils.getBuffer();
+
+        AnchorPane profileArea = new AnchorPane() {
+            {
+                setPrefWidth(280);
+                setPrefHeight(400);
+            }
+        };
+        profileArea.getStylesheets().add("css/styles.css");
+        profileArea.setStyle("-fx-background-color: #f5f5f5; -fx-background-radius: 5px");
+        profileArea.setEffect(new DropShadow(10, 0, 2, new Color(0.8, 0.8, 0.8, 1)));
+
+        AnchorPane avatar = new AnchorPane() {
+            {
+                setLayoutX(90);
+                setLayoutY(40);
+                setPrefWidth(100);
+                setPrefHeight(100);
+            }
+        };
+        avatar.getStyleClass().add("avatar");
+
+
+        JFXTextField usernameInput = new JFXTextField() {
+            {
+                setLayoutX(0);
+                setLayoutY(152);
+                setPrefWidth(280);
+                setPrefHeight(25);
+            }
+        };
+        usernameInput.getStyleClass().add("tx-no-line-center-title");
+
+        AnchorPane decorationLine1 = new AnchorPane() {
+            {
+                setLayoutX(40);
+                setLayoutY(200);
+                setPrefWidth(200);
+                setPrefHeight(1);
+            }
+        };
+        decorationLine1.setStyle("-fx-background-color: #dddddd");
+
+        JFXTextField emailInput = new JFXTextField() {
+            {
+                setLayoutX(0);
+                setLayoutY(215);
+                setPrefWidth(280);
+                setPrefHeight(20);
+            }
+        };
+        emailInput.getStyleClass().add("tx-no-line-center");
+        emailInput.setPromptText("Enter email address");
+
+        JFXTextField telephoneInput = new JFXTextField() {
+            {
+                setLayoutX(0);
+                setLayoutY(245);
+                setPrefWidth(280);
+                setPrefHeight(20);
+            }
+        };
+        telephoneInput.getStyleClass().add("tx-no-line-center");
+        telephoneInput.setPromptText("Enter telephone number");
+
+        Label wrongInputTip = new Label() {
+            {
+                setLayoutX(0);
+                setLayoutY(345);
+                setPrefWidth(280);
+                setPrefHeight(20);
+            }
+        };
+        wrongInputTip.getStyleClass().add("wrong-tip");
+        wrongInputTip.setStyle("-fx-text-alignment: center; -fx-alignment: center");
+
+        JFXButton savaButton = new JFXButton() {
+            {
+                setLayoutX(0);
+                setLayoutY(370);
+                setPrefWidth(280);
+                setPrefHeight(30);
+            }
+        };
+        savaButton.setText("SAVE");
+        savaButton.setStyle("-fx-background-color: #99aaaa; -fx-text-fill: #f5f5f5; -fx-font-size: 14px; " +
+                "-fx-font-weight: bold; -fx-background-radius: 0px 0px 5px 5px");
+
+        usernameInput.setText(buffer.get("username").toString());
+        String email = UserUtils.getUserByID(buffer.get("idUser").toString()).getEmail();
+        String telephone = UserUtils.getUserByID(buffer.get("idUser").toString()).getTelephone();
+        if (!email.equals("NULL")) {
+            emailInput.setText(email);
+        }
+        if (!telephone.equals("NULL")) {
+            telephoneInput.setText(telephone);
+        }
+
+        usernameInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
+                if (usernameInput.getText().isEmpty()) {
+                    isUsernameInputValid.set(false);
+                } else if (!buffer.get("username").toString().equals(newValue) && UserUtils.isSameUsername(newValue)) {
+                    isUsernameInputValid.set(false);
+                }
+                changeProfileCheck(isUsernameInputValid, isEmailInputValid, isTelephoneInputValid, wrongInputTip, savaButton);
+            }
+        });
+        emailInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
+                if (!emailInput.getText().isEmpty()) {
+                    isEmailInputValid.set(UserUtils.isValidEmailAddress(newValue));
+                }
+                changeProfileCheck(isUsernameInputValid, isEmailInputValid, isTelephoneInputValid, wrongInputTip, savaButton);
+            }
+        });
+        telephoneInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
+                String telephoneNew = telephoneInput.getText();
+                if (telephoneNew.length() > 11 || telephoneNew.length() < 5) {
+                    isTelephoneInputValid.set(false);
+                } else {
+                    try {
+                        Long.parseLong(telephoneNew);
+                        isTelephoneInputValid.set(true);
+                    } catch (Exception ignored) {
+                        isTelephoneInputValid.set(false);
+                    }
+                }
+                changeProfileCheck(isUsernameInputValid, isEmailInputValid, isTelephoneInputValid, wrongInputTip, savaButton);
+            }
+        });
+
+        savaButton.setOnMouseClicked(event -> {
+            if(isUsernameInputValid.get() && isEmailInputValid.get() && isTelephoneInputValid.get()){
+                User user = UserUtils.getUserByUsername(buffer.get("username").toString());
+                user.setUsername(usernameInput.getText());
+                user.setEmail(emailInput.getText());
+                user.setTelephone(telephoneInput.getText());
+                UserUtils.updateUserList(user);
+                buffer.put("username", usernameInput.getText());
+                JsonUtils.setBuffer(buffer);
+                updateFirstLetter();
+                selfProfilePopUp.hide();
+            }
+        });
+
+        profileArea.getChildren().add(avatar);
+        profileArea.getChildren().add(decorationLine1);
+        profileArea.getChildren().add(usernameInput);
+        profileArea.getChildren().add(emailInput);
+        profileArea.getChildren().add(telephoneInput);
+        profileArea.getChildren().add(wrongInputTip);
+        profileArea.getChildren().add(savaButton);
+        selfProfilePopUp.getContent().add(profileArea);
+    }
+
+    /**
+     * IDEA自动生成的函数，提取了初始化个人资料页的重复代码
+     */
+    private void changeProfileCheck(AtomicBoolean isUsernameInputValid, AtomicBoolean isEmailInputValid, AtomicBoolean isTelephoneInputValid, Label wrongInputTip, JFXButton savaButton) {
+        savaButton.setDisable(!isUsernameInputValid.get() || !isEmailInputValid.get() || !isTelephoneInputValid.get());
+        if (!isUsernameInputValid.get()) {
+            wrongInputTip.setText("Username exists or cannot be empty");
+            wrongInputTip.setVisible(true);
+        } else if (!isEmailInputValid.get()) {
+            wrongInputTip.setText("Email address is invalid");
+            wrongInputTip.setVisible(true);
+        } else if (!isTelephoneInputValid.get()) {
+            wrongInputTip.setText("Telephone number is invalid");
+            wrongInputTip.setVisible(true);
+        } else {
+            wrongInputTip.setVisible(false);
+        }
+    }
+
+    /**
+     * 将任务列表区域还原为初始设置
+     */
+    private void clearTaskListArea() {
         projectTitle.setDisable(true);
+        projectTitle.setText("Project Name");
         editProjectButton.setDisable(true);
         newTaskInput.setDisable(true);
         deleteTaskButton.setDisable(true);
@@ -1072,6 +1281,9 @@ public class MainPage {
         taskListScrollArea.setVisible(false);
     }
 
+    /**
+     * 将任务详细区域还原为初始设置
+     */
     private void clearTaskDetailArea() {
         for (Node node : taskDetailArea.getChildren()) {
             node.setVisible(false);

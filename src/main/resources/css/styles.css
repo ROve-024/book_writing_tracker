@@ -115,15 +115,30 @@
     -fx-padding: 5px, 0;
 }
 
-.text-field-without-line-title {
+.tx-no-line-center {
     -fx-font-family: Arial;
-    -fx-text-fill: #777777;
-    -fx-font-size: 16px;
+    -fx-text-fill: #999999;
+    -fx-font-size: 14px;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
     -fx-prompt-text-fill: #bbbbbb;
     -fx-background-color: #f5f5f5;
-    -jfx-focus-color: #f5f5f5;
-    -jfx-unfocus-color: #f5f5f5;
+    -jfx-focus-color: #f5f5f5!important;
+    -jfx-unfocus-color: #f5f5f5!important;
     -fx-padding: 5px, 0;
+}
+
+.tx-no-line-center-title {
+    -fx-font-family: Arial;
+    -fx-text-fill: #777777;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-prompt-text-fill: #bbbbbb;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-background-color: #f5f5f5;
+    -jfx-focus-color: #f5f5f5!important;
+    -jfx-unfocus-color: #f5f5f5!important;
 }
 
 .decoration-line {
@@ -136,6 +151,15 @@
 
 .item-container:hover {
     -fx-background-color: #fafafa;
+}
+
+.avatar {
+    -fx-background-color: #C8DEDE;
+    -fx-background-radius: 50px;
+    -fx-background-image: url("../images/user.png");
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%, 70%;
 }
 
 .exit-button {
@@ -190,5 +214,7 @@
     -fx-background-color: #555555;
     -fx-text-fill: #f5f5f5;
 }
+
+
 
 

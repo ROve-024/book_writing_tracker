@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSONObject;
 
+import javafx.scene.image.Image;
 import utils.JsonUtils;
 import utils.WindowsUtils;
 import utils.OtherUtils;
@@ -24,7 +25,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         Parent root = null;
-
         JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("page", "homePage");
         JsonUtils.setBuffer(buffer);
@@ -44,6 +44,8 @@ public class Main extends Application {
         assert root != null;
         WindowsUtils.initial(root, stage);
         stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image("images/icon.png"));
+        stage.setTitle("Writing Tracker");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.show();
