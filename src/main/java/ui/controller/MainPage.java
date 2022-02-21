@@ -324,7 +324,12 @@ public class MainPage {
 
     @FXML
     protected void homepageButtonAction() {
-        initialize();
+        JSONObject initialBuffer = JsonUtils.getBuffer();
+        initialBuffer.put("projectEditorStatus", "initial");
+        JsonUtils.setBuffer(initialBuffer);
+        sortProjectByCreateTimeAction();
+        clearTaskListArea();
+        clearTaskDetailArea();
     }
 
     @FXML
@@ -346,19 +351,7 @@ public class MainPage {
 
     @FXML
     protected void recycleBinButtonAction() {
-        JSONObject buffer = JsonUtils.getBuffer();
-        buffer.put("page", "recycleBin");
-        JsonUtils.setBuffer(buffer);
 
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(new File("src/main/java/ui/fxml/RecycleBin.fxml").toURI().toURL());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert root != null;
-        WindowsUtils.initial(root, (Stage) projectTitle.getScene().getWindow());
-        projectTitle.getScene().setRoot(root);
     }
 
     @FXML
@@ -1218,15 +1211,14 @@ public class MainPage {
         wrongInputTip.getStyleClass().add("wrong-tip");
         wrongInputTip.setStyle("-fx-text-alignment: center; -fx-alignment: center");
 
-        JFXButton savaButton = new JFXButton() {
+        JFXButton savaButton = new JFXButton("- SAVE -") {
             {
                 setLayoutX(0);
                 setLayoutY(370);
                 setPrefWidth(280);
-                setPrefHeight(30);
+                setPrefHeight(40);
             }
         };
-        savaButton.setText("SAVE");
         savaButton.setStyle("-fx-background-color: #99aaaa; -fx-text-fill: #f5f5f5; -fx-font-size: 14px; " +
                 "-fx-font-weight: bold; -fx-background-radius: 0px 0px 5px 5px");
 
@@ -1411,7 +1403,13 @@ public class MainPage {
 
         invitationCodeInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!oldValue.equals(newValue)) {
-                if (ProjectUtils.getIdProjectByCode(invitationCodeInput.getText()).equals("-1")) {
+                if(invitationCodeInput.getText().isEmpty()){
+                    submitButton.setDisable(true);
+                    wrongTip.setVisible(false);
+                    container.setPrefHeight(110);
+                    submitButton.setLayoutY(80);
+                }
+                else if (ProjectUtils.getIdProjectByCode(invitationCodeInput.getText()).equals("-1")) {
                     submitButton.setDisable(true);
                     wrongTip.setVisible(true);
                     wrongTip.setText("Invalid invitation code");

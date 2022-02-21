@@ -77,7 +77,7 @@
             <AnchorPane layoutX="335.0" prefHeight="720.0" prefWidth="405.0">
                <children>
                   <AnchorPane layoutY="107.0" prefHeight="1.0" prefWidth="405.0" styleClass="decoration-line" />
-                  <Label fx:id="projectTitle" layoutX="14.0" layoutY="31.0" styleClass="title" text="Project Task List" />
+                  <Label fx:id="projectTitle" layoutX="14.0" layoutY="31.0" maxHeight="23.0" maxWidth="315.0" minHeight="23.0" minWidth="315.0" prefHeight="23.0" prefWidth="315.0" styleClass="title" text="Project Task List" />
                   <JFXButton fx:id="editProjectButton" layoutX="363.0" layoutY="25.0" maxHeight="35.0" minHeight="23.0" prefHeight="35.0" prefWidth="42.0" style="-fx-background-color: #f5f5f5; -fx-text-fill: #99AAAA; -fx-font-size: 18; -fx-font-weight: bold;" styleClass="btn-icon" text="">
                      <font>
                         <Font name="System Bold" size="12.0" />
