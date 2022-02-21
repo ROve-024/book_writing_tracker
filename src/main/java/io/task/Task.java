@@ -25,15 +25,32 @@ public class Task {
      * 初始化任务数据
      */
     public Task() {
-        idTask = "NULL";
-        idParentTask = "NULL";
-        idProject = "";
-        idUser = "";
-        status = "unfinished";
-        taskTitle = "";
-        createTime = new Date().getTime();
-        deadlineTime = -1;
-        description = "NULL";
+        this.idTask = "NULL";
+        this.idParentTask = "NULL";
+        this.idProject = "";
+        this.idUser = "";
+        this.status = "unfinished";
+        this.taskTitle = "";
+        this.createTime = new Date().getTime();
+        this.deadlineTime = -1;
+        this.description = "NULL";
+    }
+
+    /**
+     * 创建子任务
+     * @param idParentTask 父任务id
+     * @param description 任务描述，只有”writing task“和”proofreading task“
+     */
+    public Task(String idParentTask, String description){
+        this.idTask = "NULL";
+        this.idParentTask = idParentTask;
+        this.idProject = "";
+        this.idUser = "";
+        this.status = "unfinished";
+        this.taskTitle = "";
+        this.createTime = new Date().getTime();
+        this.deadlineTime = -1;
+        this.description = description;
     }
 
     /**

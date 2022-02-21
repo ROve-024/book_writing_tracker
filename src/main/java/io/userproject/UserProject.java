@@ -19,6 +19,14 @@ public class UserProject {
     }
 
     /**
+     * 初始化用户数据
+     */
+    public UserProject(String idUser, String idProject) {
+        this.idUser = idUser;
+        this.idProject = idProject;
+    }
+
+    /**
      * Gets idUser
      *
      * @return value of idUser

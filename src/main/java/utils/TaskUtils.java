@@ -93,22 +93,6 @@ public class TaskUtils {
     }
 
     /**
-     * 使用idProject查找未被删除的主任务
-     *
-     * @param idProject project id
-     * @return 返回相应的主任务列表
-     */
-    public static List<Task> getTaskListByIdProject(String idProject) {
-        List<Task> taskList = new ArrayList<>();
-        for (Task value : getTaskList()) {
-            if (value.getIdProject().equals(idProject) && value.getIdParentTask().equals("NULL") && !value.getStatus().equals("deleted")) {
-                taskList.add(value);
-            }
-        }
-        return taskList;
-    }
-
-    /**
      * 使用idProject查找已完成的主任务
      *
      * @param idProject project id
@@ -172,6 +156,38 @@ public class TaskUtils {
                     result = true;
                     break;
                 }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 使用idParentTask获取写作子任务
+     *
+     * @param idParentTask 父任务id
+     * @return 返回当前任务的写作子任务
+     */
+    public static Task getWritingSubtask(String idParentTask){
+        Task result = null;
+        for (Task value : getTaskList()) {
+            if (value.getIdParentTask().equals(idParentTask) && value.getDescription().equals("writing task")) {
+                result = value;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 使用idParentTask获取校对子任务
+     *
+     * @param idParentTask 父任务id
+     * @return 返回当前任务的校对子任务
+     */
+    public static Task getProofreadSubtask(String idParentTask){
+        Task result = null;
+        for (Task value : getTaskList()) {
+            if (value.getIdParentTask().equals(idParentTask) && value.getDescription().equals("proofreading task")) {
+                result = value;
             }
         }
         return result;

@@ -3,6 +3,8 @@ package utils;
 import io.project.Project;
 import io.project.ProjectReadWrite;
 import io.task.Task;
+import io.user.User;
+import io.userproject.UserProject;
 import javafx.stage.Popup;
 
 import java.util.Collections;
@@ -102,9 +104,9 @@ public class ProjectUtils {
     public static void deleteProjectByIdProject(String idProject) {
         List<Project> projectList = getProjectList();
         Iterator<Project> iterator = projectList.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Project project = iterator.next();
-            if(project.getIdProject().equals(idProject)){
+            if (project.getIdProject().equals(idProject)) {
                 iterator.remove();
                 break;
             }
@@ -123,7 +125,7 @@ public class ProjectUtils {
     public static double getProjectProcessByIdProject(String idProject) {
         int finished = TaskUtils.getFinishedTaskNumberByIdProject(idProject);
         int total = TaskUtils.getAllTaskNumberByIdProject(idProject);
-        if (total == 0){
+        if (total == 0) {
             total = 1;
         }
         return (1.0 * finished) / total;
@@ -154,10 +156,31 @@ public class ProjectUtils {
      * @param projectList 待排序的项目列表
      */
     public static void sortTaskByScheduleOrder(List<Project> projectList) {
-        for(Project project : projectList){
+        for (Project project : projectList) {
             project.setProgressSituation((int) Math.round(100 * ProjectUtils.getProjectProcessByIdProject(project.getIdProject())));
         }
         projectList.sort(Comparator.comparing(Project::getProgressSituation));
+    }
+
+
+    public static String getIdProjectByCode(String code) {
+        String result = "-1";
+        for (Project value : getProjectList()) {
+            if (OtherUtils.encryptByMD5(value.getIdProject()).equals(code)) {
+                result = value.getIdProject();
+                break;
+            }
+        }
+        if (!result.equals("-1")){
+            String idUser = JsonUtils.getBuffer().getString("idUser");
+            for(User value : UserProjectUtils.getUserListByProjectId(result)){
+                if (value.getIdUser().equals(idUser)) {
+                    result = "-2";
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
 }

@@ -73,4 +73,5 @@ public class OtherUtils {
     public static LocalDate conventLongToLocalDate(long timestamp) {
         return Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate();
     }
+
 }

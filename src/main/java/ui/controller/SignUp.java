@@ -1,8 +1,11 @@
 package ui.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import io.user.User;
+import utils.JsonUtils;
 import utils.WindowsUtils;
 import utils.UserUtils;
 import utils.OtherUtils;
@@ -15,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class SignUp {
     @FXML
@@ -69,11 +73,11 @@ public class SignUp {
 
             }
         });
-        passwordInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            formatWrongInputTips.setVisible(!t1 && UserUtils.isPasswordValid(passwordInput.getText()));
+        passwordInput.textProperty().addListener((observableValue, oldValue, newValue) ->{
+                formatWrongInputTips.setVisible(!Objects.equals(oldValue, newValue) && UserUtils.isPasswordValid(passwordInput.getText()));
         });
-        repeatPasswordInput.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            repeatWrongInputTips.setVisible(!passwordInput.getText().equals(repeatPasswordInput.getText()));
+        repeatPasswordInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            repeatWrongInputTips.setVisible(!Objects.equals(oldValue, newValue) && !passwordInput.getText().equals(repeatPasswordInput.getText()));
         });
     }
 
@@ -116,6 +120,11 @@ public class SignUp {
 
         if (flag) {
             UserUtils.signUpSubmit(usernameInput.getText(), OtherUtils.encryptByMD5(passwordInput.getText()), (String) securityQuestionBox.getValue(), OtherUtils.encryptByMD5(questionAnswerInput.getText()));
+            User user = UserUtils.getUserByUsername(usernameInput.getText());
+            JSONObject buffer = JsonUtils.getBuffer();
+            buffer.put("username", user.getUsername());
+            buffer.put("idUser", user.getIdUser());
+            JsonUtils.setBuffer(buffer);
             Parent root = null;
             try {
                 root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());

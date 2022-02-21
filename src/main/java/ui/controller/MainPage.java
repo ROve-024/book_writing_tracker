@@ -9,6 +9,9 @@ import io.project.Project;
 import io.task.Task;
 import io.user.User;
 import io.userproject.UserProject;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +20,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -24,6 +29,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import utils.*;
 
 import java.io.File;
@@ -39,12 +45,31 @@ public class MainPage {
     private final Popup projectEditorPopUp = new Popup();
     private final Popup confirmDeletePopUp = new Popup();
     private final Popup selfProfilePopUp = new Popup();
+    private final Popup selectExecutorPopUp = new Popup();
+    private final Popup copyTipPopUp = new Popup();
+    private final Popup joinProjectPopUp = new Popup();
     @FXML
     private JFXButton homepageButton;
     @FXML
     private JFXButton myTaskButton;
     @FXML
     private JFXButton recycleBinButton;
+    @FXML
+    private JFXButton deadlineButton;
+    @FXML
+    private JFXButton createTimeButton;
+    @FXML
+    private JFXButton scheduleButton;
+    @FXML
+    private JFXButton newProjectButton;
+    @FXML
+    private JFXButton editProjectButton;
+    @FXML
+    private JFXButton deleteTaskButton;
+    @FXML
+    private JFXButton copyProjectCodeButton;
+    @FXML
+    private JFXButton joinProjectUsingCodeButton;
     @FXML
     private AnchorPane titleBar;
     @FXML
@@ -74,18 +99,6 @@ public class MainPage {
     @FXML
     private Label avatarLetter;
     @FXML
-    private JFXButton deadlineButton;
-    @FXML
-    private JFXButton createTimeButton;
-    @FXML
-    private JFXButton scheduleButton;
-    @FXML
-    private JFXButton newProjectButton;
-    @FXML
-    private JFXButton editProjectButton;
-    @FXML
-    private JFXButton deleteTaskButton;
-    @FXML
     private JFXTextField newTaskInput;
     @FXML
     private JFXTextField taskTitle;
@@ -109,6 +122,10 @@ public class MainPage {
         JsonUtils.setBuffer(initialBuffer);
         sortProjectByCreateTimeAction();
         initialPopupProjectEditor();
+        initialSelfProfilePopUp();
+        initialSelectExecutorPopUp();
+        initialCopyTipPopUp();
+        initialJoinProjectPopUp();
         clearTaskListArea();
         clearTaskDetailArea();
         updateFirstLetter();
@@ -135,10 +152,43 @@ public class MainPage {
         });
         userProfileButton.setOnMouseClicked(event -> {
             if (!selfProfilePopUp.isShowing()) {
-                initialSelfProfilePopUp();
                 selfProfilePopUp.show(projectTitle.getScene().getWindow());
             }
         });
+        writingTaskButton.setOnMouseClicked(event -> {
+            if (!selectExecutorPopUp.isShowing()) {
+                JSONObject buffer = JsonUtils.getBuffer();
+                buffer.put("typeSubtask", "writing task");
+                JsonUtils.setBuffer(buffer);
+                selectExecutorPopUp.show(projectTitle.getScene().getWindow());
+            }
+        });
+        proofreadingTaskButton.setOnMouseClicked(event -> {
+            if (!selectExecutorPopUp.isShowing()) {
+                JSONObject buffer = JsonUtils.getBuffer();
+                buffer.put("typeSubtask", "proofreading task");
+                JsonUtils.setBuffer(buffer);
+                selectExecutorPopUp.show(projectTitle.getScene().getWindow());
+            }
+        });
+        copyProjectCodeButton.setOnMouseClicked(event -> {
+            if (!copyTipPopUp.isShowing()) {
+                final KeyFrame kf1 = new KeyFrame(Duration.millis(0), e -> {
+                    copyTipPopUp.show(projectTitle.getScene().getWindow());
+                });
+                final KeyFrame kf2 = new KeyFrame(Duration.millis(1000), e -> {
+                    copyTipPopUp.hide();
+                });
+                final Timeline timeline = new Timeline(kf1, kf2);
+                Platform.runLater(timeline::play);
+            }
+        });
+        joinProjectUsingCodeButton.setOnMouseClicked(event -> {
+            if (!joinProjectPopUp.isShowing()) {
+                joinProjectPopUp.show(projectTitle.getScene().getWindow());
+            }
+        });
+
         newTaskInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (!newTaskInput.getText().isEmpty()) {
@@ -315,6 +365,7 @@ public class MainPage {
     protected void logoutButtonAction() {
         JSONObject buffer = JsonUtils.getBuffer();
         buffer.put("userStatus", OtherUtils.encryptByMD5("false"));
+        JsonUtils.setBuffer(buffer);
         Parent root = null;
         try {
             root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());
@@ -478,6 +529,7 @@ public class MainPage {
 
         projectTitle.setDisable(false);
         editProjectButton.setDisable(false);
+        copyProjectCodeButton.setDisable(false);
         newTaskInput.setDisable(false);
         taskListScrollArea.setVisible(true);
         if (finishedTaskList.isEmpty() && unfinishedTaskList.isEmpty()) {
@@ -777,9 +829,9 @@ public class MainPage {
     /**
      * 更新用户首字母的内容
      */
-    private void updateFirstLetter(){
+    private void updateFirstLetter() {
         JSONObject buffer = JsonUtils.getBuffer();
-        avatarLetter.setText(buffer.get("username").toString().charAt(0)+ "");
+        avatarLetter.setText(buffer.get("username").toString().charAt(0) + "");
     }
 
     /**
@@ -1224,7 +1276,7 @@ public class MainPage {
         });
 
         savaButton.setOnMouseClicked(event -> {
-            if(isUsernameInputValid.get() && isEmailInputValid.get() && isTelephoneInputValid.get()){
+            if (isUsernameInputValid.get() && isEmailInputValid.get() && isTelephoneInputValid.get()) {
                 User user = UserUtils.getUserByUsername(buffer.get("username").toString());
                 user.setUsername(usernameInput.getText());
                 user.setEmail(emailInput.getText());
@@ -1248,9 +1300,163 @@ public class MainPage {
     }
 
     /**
+     * 选择子任务执行人
+     */
+    private void initialSelectExecutorPopUp() {
+        selectExecutorPopUp.setAutoHide(true);
+        AnchorPane selectUserArea = new AnchorPane() {
+            {
+
+            }
+        };
+
+    }
+
+    /**
+     * 初始化复制到剪贴板提示
+     */
+    private void initialCopyTipPopUp() {
+        copyTipPopUp.setAutoHide(true);
+        String projectCode = OtherUtils.encryptByMD5(JsonUtils.getBuffer().getString("idProject"));
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(projectCode);
+        Clipboard.getSystemClipboard().setContent(content);
+
+        AnchorPane container = new AnchorPane() {
+            {
+                setPrefHeight(40);
+                setPrefWidth(280);
+            }
+        };
+        container.getStylesheets().add("css/styles.css");
+        container.setStyle("-fx-background-color: #f5f5f5; -fx-background-radius: 5px");
+        container.setEffect(new DropShadow(10, 0, 2, new Color(0.9, 0.9, 0.9, 1)));
+
+        Label tip = new Label("Copied invitation code to clipboard.") {
+            {
+                setLayoutX(15);
+                setLayoutY(10);
+                setPrefHeight(20);
+                setPrefWidth(250);
+            }
+        };
+        tip.setStyle("-fx-font-size: 14px; -fx-text-fill: #777777; -fx-alignment: center; -fx-text-alignment: center");
+        container.getChildren().add(tip);
+
+        copyTipPopUp.getContent().add(container);
+    }
+
+    /**
+     * 初始化使用邀请码加入项目界面
+     */
+    private void initialJoinProjectPopUp() {
+        joinProjectPopUp.setAutoHide(true);
+
+        JSONObject buffer = JsonUtils.getBuffer();
+
+        final String[] idProject = new String[1];
+
+        AnchorPane container = new AnchorPane() {
+            {
+                setPrefHeight(110);
+                setPrefWidth(280);
+            }
+        };
+        container.getStylesheets().add("css/styles.css");
+        container.setStyle("-fx-background-color: #f5f5f5; -fx-background-radius: 5px");
+        container.setEffect(new DropShadow(10, 0, 2, new Color(0.8, 0.8, 0.8, 1)));
+
+        Label tip = new Label("Enter invitation code") {
+            {
+                setLayoutX(10);
+                setLayoutY(12);
+            }
+        };
+        tip.setStyle("-fx-text-fill: #232323; -fx-font-size: 14px; -fx-font-weight: bold");
+
+        JFXTextField invitationCodeInput = new JFXTextField() {
+            {
+                setLayoutX(10);
+                setLayoutY(39);
+                setPrefHeight(30);
+                setPrefWidth(260);
+            }
+        };
+        invitationCodeInput.getStyleClass().add("text-field-without-line-background");
+        invitationCodeInput.setStyle("-fx-font-size: 11px; -fx-text-alignment: center; -fx-alignment: " +
+                "center");
+        invitationCodeInput.setPromptText("XXXXXXXX XXXXXXXX XXXXXXXX XXXXXXXX");
+
+        Label wrongTip = new Label() {
+            {
+                setLayoutX(10);
+                setLayoutY(75);
+                setPrefWidth(260);
+            }
+        };
+        wrongTip.getStyleClass().add("wrong-tip");
+        wrongTip.setVisible(false);
+
+        JFXButton submitButton = new JFXButton("JOIN") {
+            {
+                setLayoutX(0);
+                setLayoutY(80);
+                setPrefHeight(30);
+                setPrefWidth(280);
+            }
+        };
+        submitButton.setStyle("-fx-background-color: #99aaaa; -fx-text-fill: #f5f5f5; -fx-font-size: 14px; " +
+                "-fx-font-weight: bold; -fx-background-radius: 0px 0px 5px 5px");
+        submitButton.setDisable(true);
+
+        invitationCodeInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!oldValue.equals(newValue)) {
+                if (ProjectUtils.getIdProjectByCode(invitationCodeInput.getText()).equals("-1")) {
+                    submitButton.setDisable(true);
+                    wrongTip.setVisible(true);
+                    wrongTip.setText("Invalid invitation code");
+                    container.setPrefHeight(130);
+                    submitButton.setLayoutY(100);
+                } else if (ProjectUtils.getIdProjectByCode(invitationCodeInput.getText()).equals("-2")) {
+                    submitButton.setDisable(true);
+                    wrongTip.setVisible(true);
+                    wrongTip.setText("You have already joined the project");
+                    container.setPrefHeight(130);
+                    submitButton.setLayoutY(100);
+                } else {
+                    submitButton.setDisable(false);
+                    wrongTip.setVisible(false);
+                    container.setPrefHeight(110);
+                    submitButton.setLayoutY(80);
+                    idProject[0] = ProjectUtils.getIdProjectByCode(invitationCodeInput.getText());
+                }
+            }
+        });
+
+        submitButton.setOnMouseClicked(event -> {
+            UserProjectUtils.createUserProject(new UserProject(buffer.getString("idUser"), idProject[0]));
+            buffer.put("idProject", idProject[0]);
+            JsonUtils.setBuffer(buffer);
+            updateProjectListArea();
+            updateTaskListArea();
+            clearTaskDetailArea();
+            joinProjectPopUp.hide();
+        });
+
+        container.getChildren().add(tip);
+        container.getChildren().add(invitationCodeInput);
+        container.getChildren().add(wrongTip);
+        container.getChildren().add(submitButton);
+
+        joinProjectPopUp.getContent().add(container);
+    }
+
+
+    /**
      * IDEA自动生成的函数，提取了初始化个人资料页的重复代码
      */
-    private void changeProfileCheck(AtomicBoolean isUsernameInputValid, AtomicBoolean isEmailInputValid, AtomicBoolean isTelephoneInputValid, Label wrongInputTip, JFXButton savaButton) {
+    private void changeProfileCheck(AtomicBoolean isUsernameInputValid, AtomicBoolean isEmailInputValid,
+                                    AtomicBoolean isTelephoneInputValid, Label wrongInputTip, JFXButton savaButton) {
         savaButton.setDisable(!isUsernameInputValid.get() || !isEmailInputValid.get() || !isTelephoneInputValid.get());
         if (!isUsernameInputValid.get()) {
             wrongInputTip.setText("Username exists or cannot be empty");
@@ -1272,6 +1478,7 @@ public class MainPage {
     private void clearTaskListArea() {
         projectTitle.setDisable(true);
         projectTitle.setText("Project Name");
+        copyProjectCodeButton.setDisable(true);
         editProjectButton.setDisable(true);
         newTaskInput.setDisable(true);
         deleteTaskButton.setDisable(true);
