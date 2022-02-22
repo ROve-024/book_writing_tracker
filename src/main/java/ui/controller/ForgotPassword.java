@@ -145,7 +145,7 @@ public class ForgotPassword {
         if (flag) {
             user.setPassword(OtherUtils.encryptByMD5(passwordInput.getText()));
             UserUtils.updateUserList(user);
-            System.out.println("success");
+
             Parent root = null;
             try {
                 root = FXMLLoader.load(new File("src/main/java/ui/fxml/Login.fxml").toURI().toURL());

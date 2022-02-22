@@ -1,9 +1,13 @@
 package utils;
 
+import io.task.Task;
 import io.user.User;
 import io.user.UserReadWrite;
+import io.userproject.UserProject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 处理User类对象的数据
@@ -220,6 +224,57 @@ public class UserUtils {
     public static User getUserByUsername(String username) {
         String id = UserUtils.getIDByUsername(username);
         return UserUtils.getUserByID(id);
+    }
+
+    /**
+     * 获取子任务可选用户列表
+     *
+     * @param searchInput 用户输入的搜索关键词
+     * @return 返回子任务可选用户列表
+     */
+    public static List<User> getSubtaskSelectUserList(String searchInput) {
+        List<User> userList = getUserListByIdProject();
+        String taskType = JsonUtils.getBuffer().getString("typeSubtask");
+
+        String otherExecutor = "NULL";
+        try {
+            if (taskType.equals("writing task")) {
+                otherExecutor = getUserByID(TaskUtils.getProofreadSubtask().getIdUser()).getUsername();
+            } else if (taskType.equals("proofreading task")) {
+                otherExecutor = getUserByID(TaskUtils.getWritingSubtask().getIdUser()).getUsername();
+            }
+        } catch (NullPointerException ignored) {
+            otherExecutor = "NULL";
+        }
+
+        if (!otherExecutor.equals("NULL")) {
+            String finalOtherExecutor = otherExecutor;
+            userList.removeIf(user -> user.getUsername().equals(finalOtherExecutor));
+        }
+
+        if (!searchInput.equals("")) {
+            userList.removeIf(user -> !user.getUsername().toLowerCase().contains(searchInput.toLowerCase()));
+        }
+        return userList;
+    }
+
+    /**
+     * 查询参与该项目的所有用户
+     *
+     * @return 返回属于参与项目的所有用户列表
+     */
+    public static List<User> getUserListByIdProject() {
+        String idProject = JsonUtils.getBuffer().getString("idProject");
+
+        List<User> result = new ArrayList<>();
+        List<UserProject> userProjectList = UserProjectUtils.getUserProjectList();
+
+        for (UserProject value : userProjectList) {
+            if (value.getIdProject().equals(idProject)) {
+                result.add(getUserByID(value.getIdUser()));
+            }
+        }
+        return result;
     }
 
 

@@ -98,8 +98,8 @@
     -fx-font-size: 18px;
     -fx-prompt-text-fill: #bbbbbb;
     -fx-background-color: #f5f5f5;
-    -jfx-focus-color: #f5f5f5;
-    -jfx-unfocus-color: #f5f5f5;
+    -jfx-focus-color: #f5f5f5!important;
+    -jfx-unfocus-color: #f5f5f5!important;
     -fx-padding: 5px, 0;
 }
 

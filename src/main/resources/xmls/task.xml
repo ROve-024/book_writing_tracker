@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <DATA>
 <ROW>
-<IdTask>6</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>2</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 6</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>-1</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
 <IdTask>8</IdTask>
 <IdParentTask>NULL</IdParentTask>
 <IdProject>3</IdProject>
@@ -34,23 +23,35 @@
 <Description>NULL</Description>
 </ROW>
 <ROW>
-<IdTask>10</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>4</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 9</TaskTitle>
-<CreateTime>3</CreateTime>
+<IdTask>23</IdTask>
+<IdParentTask>15</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>2</IdUser>
+<Status>finished</Status>
+<TaskTitle>First draft of the script</TaskTitle>
+<CreateTime>1644980006754</CreateTime>
 <DeadlineTime>-1</DeadlineTime>
-<Description>NULL</Description>
+<Description>writing task</Description>
 </ROW>
 <ROW>
-<IdTask>12</IdTask>
+<IdTask>7</IdTask>
 <IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
+<IdProject>2</IdProject>
+<IdUser>1</IdUser>
+<Status>finished</Status>
+<TaskTitle>Draft of chapter I, version 7</TaskTitle>
+<CreateTime>3</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>Word limit: 600
+        </Description>
+</ROW>
+<ROW>
+<IdTask>6</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>2</IdProject>
 <IdUser>1</IdUser>
 <Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 11</TaskTitle>
+<TaskTitle>Draft of chapter I, version 6</TaskTitle>
 <CreateTime>3</CreateTime>
 <DeadlineTime>-1</DeadlineTime>
 <Description>NULL</Description>
@@ -67,70 +68,36 @@
 <Description>WORDS LIMIT: 600</Description>
 </ROW>
 <ROW>
-<IdTask>5</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 5</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>1644249600000</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
-<IdTask>4</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 4</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>1644336000000</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
-<IdTask>7</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>2</IdProject>
-<IdUser>1</IdUser>
+<IdTask>25</IdTask>
+<IdParentTask>24</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>2</IdUser>
 <Status>finished</Status>
-<TaskTitle>Draft of chapter I, version 7</TaskTitle>
+<TaskTitle>writing task</TaskTitle>
+<CreateTime>1645533354662</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>writing task</Description>
+</ROW>
+<ROW>
+<IdTask>26</IdTask>
+<IdParentTask>24</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>3</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>proofreading task</TaskTitle>
+<CreateTime>1645533529886</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>proofreading task</Description>
+</ROW>
+<ROW>
+<IdTask>12</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Draft of chapter I, version 11</TaskTitle>
 <CreateTime>3</CreateTime>
 <DeadlineTime>-1</DeadlineTime>
-<Description>Word limit: 600
-</Description>
-</ROW>
-<ROW>
-<IdTask>3</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 3</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>1645027200000</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
-<IdTask>14</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
-<IdUser>2</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Chapter 3, v1</TaskTitle>
-<CreateTime>1644916999533</CreateTime>
-<DeadlineTime>1644249600000</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
-<IdTask>17</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>1</IdProject>
-<IdUser>2</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Chapter 4, v1</TaskTitle>
-<CreateTime>1645000035776</CreateTime>
-<DeadlineTime>1645372800000</DeadlineTime>
 <Description>NULL</Description>
 </ROW>
 <ROW>
@@ -189,6 +156,28 @@
 <Description>NULL</Description>
 </ROW>
 <ROW>
+<IdTask>17</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>2</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Chapter 4, v1</TaskTitle>
+<CreateTime>1645000035776</CreateTime>
+<DeadlineTime>1645372800000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>3</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Draft of chapter I, version 3</TaskTitle>
+<CreateTime>3</CreateTime>
+<DeadlineTime>1645027200000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
 <IdTask>2</IdTask>
 <IdParentTask>NULL</IdParentTask>
 <IdProject>1</IdProject>
@@ -198,6 +187,105 @@
 <CreateTime>5</CreateTime>
 <DeadlineTime>1644940800000</DeadlineTime>
 <Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>4</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Draft of chapter I, version 4</TaskTitle>
+<CreateTime>3</CreateTime>
+<DeadlineTime>1644336000000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>14</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>2</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Chapter 3, v1</TaskTitle>
+<CreateTime>1644916999533</CreateTime>
+<DeadlineTime>1644249600000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>5</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Draft of chapter I, version 5</TaskTitle>
+<CreateTime>3</CreateTime>
+<DeadlineTime>1644249600000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>27</IdTask>
+<IdParentTask>24</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>proofreading task</TaskTitle>
+<CreateTime>1645536773347</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>proofreading task</Description>
+</ROW>
+<ROW>
+<IdTask>28</IdTask>
+<IdParentTask>24</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>3</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>proofreading task</TaskTitle>
+<CreateTime>1645536778996</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>proofreading task</Description>
+</ROW>
+<ROW>
+<IdTask>10</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>4</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Draft of chapter I, version 9</TaskTitle>
+<CreateTime>3</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>31</IdTask>
+<IdParentTask>29</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>3</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>proofreading task</TaskTitle>
+<CreateTime>1645537748458</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>proofreading task</Description>
+</ROW>
+<ROW>
+<IdTask>32</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>2</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>Chapter 15, v69</TaskTitle>
+<CreateTime>1645537910794</CreateTime>
+<DeadlineTime>1644163200000</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>33</IdTask>
+<IdParentTask>32</IdParentTask>
+<IdProject>1</IdProject>
+<IdUser>2</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>writing task</TaskTitle>
+<CreateTime>1645537936847</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>writing task</Description>
 </ROW>
 <ROW>
 <IdTask>21</IdTask>
@@ -222,13 +310,35 @@
 <Description>NULL</Description>
 </ROW>
 <ROW>
-<IdTask>15</IdTask>
+<IdTask>22</IdTask>
+<IdParentTask>NULL</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>3</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>2nd draft of the script</TaskTitle>
+<CreateTime>1645501677390</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>NULL</Description>
+</ROW>
+<ROW>
+<IdTask>30</IdTask>
+<IdParentTask>29</IdParentTask>
+<IdProject>7</IdProject>
+<IdUser>1</IdUser>
+<Status>unfinished</Status>
+<TaskTitle>writing task</TaskTitle>
+<CreateTime>1645537730598</CreateTime>
+<DeadlineTime>-1</DeadlineTime>
+<Description>writing task</Description>
+</ROW>
+<ROW>
+<IdTask>29</IdTask>
 <IdParentTask>NULL</IdParentTask>
 <IdProject>7</IdProject>
 <IdUser>2</IdUser>
-<Status>finished</Status>
-<TaskTitle>First draft of the script</TaskTitle>
-<CreateTime>1644980006754</CreateTime>
+<Status>unfinished</Status>
+<TaskTitle>1</TaskTitle>
+<CreateTime>1645537727408</CreateTime>
 <DeadlineTime>-1</DeadlineTime>
 <Description>NULL</Description>
 </ROW>

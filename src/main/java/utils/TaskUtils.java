@@ -1,5 +1,6 @@
 package utils;
 
+import com.alibaba.fastjson.JSONObject;
 import io.task.Task;
 import io.task.TaskReadWrite;
 import io.user.User;
@@ -105,7 +106,7 @@ public class TaskUtils {
                 taskList.add(value);
             }
         }
-        return sortTaskByDefaultOder(taskList);
+        return sortTaskByDefaultOrder(taskList);
     }
 
     /**
@@ -121,7 +122,7 @@ public class TaskUtils {
                 taskList.add(value);
             }
         }
-        return sortTaskByDefaultOder(taskList);
+        return sortTaskByDefaultOrder(taskList);
     }
 
     /**
@@ -162,37 +163,39 @@ public class TaskUtils {
     }
 
     /**
-     * 使用idParentTask获取写作子任务
+     * 获取写作子任务
      *
-     * @param idParentTask 父任务id
      * @return 返回当前任务的写作子任务
      */
-    public static Task getWritingSubtask(String idParentTask){
+    public static Task getWritingSubtask(){
+        String idParentTask = JsonUtils.getBuffer().getString("idTask");
         Task result = null;
         for (Task value : getTaskList()) {
             if (value.getIdParentTask().equals(idParentTask) && value.getDescription().equals("writing task")) {
                 result = value;
+                break;
             }
         }
         return result;
     }
 
     /**
-     * 使用idParentTask获取校对子任务
+     * 获取校对子任务
      *
-     * @param idParentTask 父任务id
      * @return 返回当前任务的校对子任务
      */
-    public static Task getProofreadSubtask(String idParentTask){
+    public static Task getProofreadSubtask(){
+        String idParentTask = JsonUtils.getBuffer().getString("idTask");
         Task result = null;
         for (Task value : getTaskList()) {
             if (value.getIdParentTask().equals(idParentTask) && value.getDescription().equals("proofreading task")) {
                 result = value;
+                break;
             }
         }
         return result;
     }
-
+    
     /**
      * 使用idTask删除任务
      *
@@ -238,7 +241,7 @@ public class TaskUtils {
      *
      * @param taskList 待排序的任务列表
      */
-    public static List<Task> sortTaskByDefaultOder(List<Task> taskList){
+    public static List<Task> sortTaskByDefaultOrder(List<Task> taskList){
         List<Task> result = new ArrayList<>();
         List<Task> withDeadlineList = new ArrayList<>();
         List<Task> withoutDeadlineList = new ArrayList<>();
@@ -312,6 +315,27 @@ public class TaskUtils {
      */
     public static int getFinishedTaskNumberByIdProject(String idProject) {
         return getFinishedTaskListByIdProject(idProject).size();
+    }
+    
+    public static String getStatusOfUserInProjectByIdUser(String idUser){
+        JSONObject buffer = JsonUtils.getBuffer();
+        List<Task> finishedTaskList = new ArrayList<>();
+        for (Task value : getTaskList()) {
+            if (value.getIdProject().equals(buffer.getString("idProject")) && !value.getIdParentTask().equals("NULL") && value.getStatus().equals(
+                    "finished") && value.getIdUser().equals(idUser)) {
+                finishedTaskList.add(value);
+            }
+        }
+
+        List<Task> unfinishedTaskList = new ArrayList<>();
+        for (Task value : getTaskList()) {
+            if (value.getIdProject().equals(buffer.getString("idProject")) && !value.getIdParentTask().equals("NULL") && value.getStatus().equals(
+                    "unfinished") && value.getIdUser().equals(idUser)) {
+                unfinishedTaskList.add(value);
+            }
+        }
+
+        return "Finished-Total: (" + finishedTaskList.size() + "/" + (finishedTaskList.size() + unfinishedTaskList.size()) + ")";
     }
 
 }

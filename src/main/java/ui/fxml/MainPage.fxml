@@ -108,12 +108,7 @@
                </children></AnchorPane>
             <AnchorPane fx:id="taskDetailArea" layoutX="741.0" prefHeight="720.0" prefWidth="339.0">
                <children>
-                  <DatePicker fx:id="taskDeadline" layoutX="228.0" layoutY="75.0" prefHeight="23.0" prefWidth="94.0" />
-                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="109.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" styleClass="text-field-without-line-title" />
-                  <AnchorPane layoutX="23.0" layoutY="106.0" prefHeight="1.0" prefWidth="293.0" styleClass="decoration-line" />
-                  <AnchorPane layoutY="261.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
-                  <Label fx:id="wrongTaskTitleTip" layoutX="21.0" layoutY="264.0" styleClass="wrong-tip" text="The task name cannot be empty." />
-                  <AnchorPane layoutY="441.0" prefHeight="61.0" prefWidth="339.0">
+                  <AnchorPane fx:id="subtaskArea" layoutY="441.0" prefHeight="61.0" prefWidth="339.0">
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="339.0">
                            <children>
@@ -127,6 +122,11 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
+                  <DatePicker fx:id="taskDeadline" layoutX="228.0" layoutY="75.0" prefHeight="23.0" prefWidth="94.0" />
+                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="109.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" styleClass="text-field-without-line-title" />
+                  <AnchorPane layoutX="23.0" layoutY="106.0" prefHeight="1.0" prefWidth="293.0" styleClass="decoration-line" />
+                  <AnchorPane layoutY="261.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
+                  <Label fx:id="wrongTaskTitleTip" layoutX="21.0" layoutY="264.0" styleClass="wrong-tip" text="The task name cannot be empty." />
                   <AnchorPane layoutY="315.0" prefHeight="61.0" prefWidth="339.0">
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="339.0">
@@ -146,10 +146,10 @@
                   <Label layoutX="22.0" layoutY="287.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Cooperator" />
                   <Label layoutX="21.0" layoutY="409.0" style="-fx-font-size: 16px; -fx-text-fill: #555555;" text="Task Progress" />
                   <AnchorPane layoutY="389.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
-                  <JFXTextField fx:id="taskTitle" layoutX="14.0" layoutY="30.0" prefHeight="30.0" prefWidth="315.0" promptText="Task Title" style="-fx-font-weight: bold;" styleClass="text-field-without-line-title" />
+                  <JFXTextField fx:id="taskTitle" layoutX="14.0" layoutY="30.0" prefHeight="30.0" prefWidth="315.0" promptText="Task Title" style="-fx-font-weight: bold;" styleClass="text-field-without-line" />
                   <AnchorPane layoutY="65.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
                   <Label layoutX="20.0" layoutY="78.0" style="-fx-font-size: 14px; -fx-text-fill: #999999;" text="Creater:" />
-                  <Label fx:id="taskCreaterUsername" layoutX="75.0" layoutY="78.0" prefHeight="16.0" prefWidth="148.0" style="-fx-font-size: 14px; -fx-text-fill: #777777;" text="username" />
+                  <Label fx:id="taskCreatorUsername" layoutX="75.0" layoutY="78.0" prefHeight="16.0" prefWidth="148.0" style="-fx-font-size: 14px; -fx-text-fill: #777777;" text="username" />
                   <JFXButton fx:id="deleteTaskButton" layoutX="21.0" layoutY="666.0" onAction="#deleteTaskButtonAction" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #99aaaa; -fx-text-fill: #f5f5f5;" text="DELETE" />
                </children></AnchorPane>
          </children>

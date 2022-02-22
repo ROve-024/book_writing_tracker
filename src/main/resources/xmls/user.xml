@@ -10,15 +10,6 @@
 <Telephone>138000000000</Telephone>
 </ROW>
 <ROW>
-<IdUser>2</IdUser>
-<Username>CUI_Bingzhe</Username>
-<Password>20cc88d2e204ffa768509d33fa882492</Password>
-<SecurityQuestion>What city were you born in?</SecurityQuestion>
-<SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
-<Email>cui_bingzhe@yeah.net</Email>
-<Telephone>18888888888</Telephone>
-</ROW>
-<ROW>
 <IdUser>3</IdUser>
 <Username>LayNaN</Username>
 <Password>20cc88d2e204ffa768509d33fa882492</Password>
@@ -26,5 +17,14 @@
 <SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
 <Email>NULL</Email>
 <Telephone>NULL</Telephone>
+</ROW>
+<ROW>
+<IdUser>2</IdUser>
+<Username>CUI_Bingzhe</Username>
+<Password>20cc88d2e204ffa768509d33fa882492</Password>
+<SecurityQuestion>What city were you born in?</SecurityQuestion>
+<SecurityAnswer>56cf85bf09c29c7648119e48d8e8f71c</SecurityAnswer>
+<Email>cui_bingzhe@yeah.net</Email>
+<Telephone>18888888888</Telephone>
 </ROW>
 </DATA>
