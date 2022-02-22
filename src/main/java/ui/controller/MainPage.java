@@ -581,11 +581,7 @@ public class MainPage {
                 project.setProjectName(projectTitle.getText());
                 project.setDescription(projectDescription.getText());
                 project.setDeadlineTime(OtherUtils.conventLocalDateToLong(datePicker.getValue()));
-                if (projectEditorOption.equals("create")) {
-                    ProjectUtils.createProject(project);
-                } else if (projectEditorOption.equals("edit")) {
-                    ProjectUtils.updateProjectList(project);
-                }
+                ProjectUtils.updateProjectList(project);
 
                 UserProject userProject = new UserProject();
                 userProject.setIdProject(project.getIdProject());
@@ -679,6 +675,7 @@ public class MainPage {
             updateProjectListArea();
             clearTaskListArea();
             clearTaskDetailArea();
+            confirmDeletePopUp.hide();
         });
 
         confirmDeletePopUp.getContent().add(deleteProjectArea);

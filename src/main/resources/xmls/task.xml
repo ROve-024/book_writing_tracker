@@ -12,17 +12,6 @@
 <Description>NULL</Description>
 </ROW>
 <ROW>
-<IdTask>9</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>4</IdProject>
-<IdUser>1</IdUser>
-<Status>finished</Status>
-<TaskTitle>Draft of chapter I, version 9</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>-1</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
 <IdTask>23</IdTask>
 <IdParentTask>15</IdParentTask>
 <IdProject>7</IdProject>
@@ -244,17 +233,6 @@
 <Description>proofreading task</Description>
 </ROW>
 <ROW>
-<IdTask>10</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>4</IdProject>
-<IdUser>1</IdUser>
-<Status>unfinished</Status>
-<TaskTitle>Draft of chapter I, version 9</TaskTitle>
-<CreateTime>3</CreateTime>
-<DeadlineTime>-1</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
 <IdTask>31</IdTask>
 <IdParentTask>29</IdParentTask>
 <IdProject>7</IdProject>
@@ -295,17 +273,6 @@
 <Status>finished</Status>
 <TaskTitle>early report, version 1</TaskTitle>
 <CreateTime>1645001979957</CreateTime>
-<DeadlineTime>-1</DeadlineTime>
-<Description>NULL</Description>
-</ROW>
-<ROW>
-<IdTask>20</IdTask>
-<IdParentTask>NULL</IdParentTask>
-<IdProject>5</IdProject>
-<IdUser>2</IdUser>
-<Status>finished</Status>
-<TaskTitle>Chapter 1, version 2</TaskTitle>
-<CreateTime>1645001531509</CreateTime>
 <DeadlineTime>-1</DeadlineTime>
 <Description>NULL</Description>
 </ROW>
