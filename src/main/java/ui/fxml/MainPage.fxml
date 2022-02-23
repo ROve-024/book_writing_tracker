@@ -123,7 +123,7 @@
                      </children>
                   </AnchorPane>
                   <DatePicker fx:id="taskDeadline" layoutX="228.0" layoutY="75.0" prefHeight="23.0" prefWidth="94.0" />
-                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="109.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" styleClass="text-field-without-line-title" />
+                  <JFXTextArea fx:id="taskDescription" layoutX="14.0" layoutY="109.0" prefHeight="150.0" prefWidth="315.0" promptText="Task Description" style="-fx-font-size: 14px;" styleClass="text-field-without-line" />
                   <AnchorPane layoutX="23.0" layoutY="106.0" prefHeight="1.0" prefWidth="293.0" styleClass="decoration-line" />
                   <AnchorPane layoutY="261.0" prefHeight="1.0" prefWidth="339.0" styleClass="decoration-line" />
                   <Label fx:id="wrongTaskTitleTip" layoutX="21.0" layoutY="264.0" styleClass="wrong-tip" text="The task name cannot be empty." />
